@@ -30,27 +30,29 @@ const {
 
 <Section id="download" variant="dark" class="download">
   <div class="download__header">
-    <h2 class="download__title">Download PrismGB</h2>
+    <h2 class="download__title">Download</h2>
     <Badge variant="success" dot>v{version} Latest</Badge>
   </div>
 
   <div class="download__grid">
     {platforms.map((platform, index) => (
       <Card variant="download" class="download__card surface-strong" style={`--delay: ${index * 100}ms`}>
-        <div class="download__platform-icon surface-strong">
-          <Icon name={platform.icon} size={40} />
+        <div class="download__card-row">
+          <div class="download__platform-icon surface-strong">
+            <Icon name={platform.icon} size={40} />
+          </div>
+          <div class="download__card-info">
+            <h3 class="download__platform-name">{platform.label}</h3>
+            <span class="download__filename">{platform.filename || '\u00A0'}</span>
+          </div>
+          <Button
+            variant="primary"
+            class="download__button"
+            type="button"
+          >
+            Coming Soon!
+          </Button>
         </div>
-        <h3 class="download__platform-name">{platform.label}</h3>
-        {platform.filename && (
-          <span class="download__filename">{platform.filename}</span>
-        )}
-        <Button
-          variant="primary"
-          class="download__button"
-          type="button"
-        >
-          Coming Soon!
-        </Button>
       </Card>
     ))}
   </div>
@@ -103,10 +105,6 @@ const {
   }
 
   :global(.download__card) {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
     padding: 2rem;
     height: 100%;
     animation: fadeInUp 0.6s ease forwards;
@@ -114,39 +112,52 @@ const {
     opacity: 0;
   }
 
-  :global(.download__card .download__platform-icon) {
+  .download__card-row {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 0.5rem;
+  }
+
+  .download__card-info {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .download__platform-icon {
     display: flex;
     align-items: center;
     justify-content: center;
     width: 80px;
     height: 80px;
-    margin-bottom: 1.25rem;
+    margin-bottom: 0.75rem;
     border-radius: var(--radius-lg);
     color: var(--accent-bright);
     flex-shrink: 0;
   }
 
-  :global(.download__card .download__platform-name) {
+  .download__platform-name {
     font-size: 1.25rem;
-    margin-bottom: 0.5rem;
+    margin-bottom: 0;
     color: var(--text-white);
     white-space: nowrap;
   }
 
-  :global(.download__card .download__filename) {
+  .download__filename {
     display: block;
     font-size: 0.8125rem;
     color: var(--text-muted);
-    margin-bottom: 1.25rem;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
     max-width: 100%;
+    margin-bottom: 0.75rem;
   }
 
   :global(.download__card .download__button) {
     width: 100%;
-    margin-top: auto;
     white-space: nowrap;
   }
 
@@ -208,27 +219,63 @@ const {
     color: var(--kofi);
   }
 
-  @media (max-width: 900px) {
+  @media (max-width: 768px) {
     .download__grid {
-      gap: 1rem;
-    }
-  }
-
-  @media (max-width: 600px) {
-    .download__grid {
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      max-width: 520px;
-      gap: 0.75rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
     }
 
     :global(.download__card) {
-      padding: 1.5rem;
+      padding: 0.75rem 1rem;
+      border-radius: var(--radius-md);
     }
 
-    :global(.download__card .download__platform-icon) {
-      width: 64px;
-      height: 64px;
-      margin-bottom: 1rem;
+    :global(.download__card:hover) {
+      transform: none;
+    }
+
+    .download__card-row {
+      flex-direction: row;
+      align-items: center;
+      text-align: left;
+      gap: 0.75rem;
+    }
+
+    .download__card-info {
+      flex: 1;
+      align-items: flex-start;
+      min-width: 0;
+    }
+
+    .download__platform-icon {
+      width: 36px;
+      height: 36px;
+      margin-bottom: 0;
+      border-radius: var(--radius-sm);
+    }
+
+    .download__platform-icon :global(.icon) {
+      width: 20px;
+      height: 20px;
+    }
+
+    .download__platform-name {
+      font-size: 0.9375rem;
+      font-weight: 600;
+    }
+
+    .download__filename {
+      font-size: 0.75rem;
+      margin-bottom: 0;
+      margin-top: 0.125rem;
+    }
+
+    :global(.download__card .download__button) {
+      width: auto;
+      padding: 0.5rem 0.875rem;
+      font-size: 0.8125rem;
+      flex-shrink: 0;
     }
   }
 </style>
