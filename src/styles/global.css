@@ -138,6 +138,7 @@
 
 html {
   scroll-behavior: smooth;
+  background-color: var(--bg-primary);
   background: var(--bg-gradient);
   color: var(--text-primary);
   min-height: 100%;
