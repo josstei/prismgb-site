@@ -54,10 +54,11 @@ const currentYear = new Date().getFullYear();
     position: relative;
     z-index: 1;
     border-top: 1px solid rgba(139, 92, 246, 0.15);
+    background-color: var(--bg-tertiary);
     background: linear-gradient(
       180deg,
       transparent 0%,
-      rgba(15, 15, 30, 0.5) 100%
+      var(--bg-tertiary) 100%
     );
     padding: var(--section-padding-y) var(--section-padding-x);
     padding-bottom: calc(var(--section-padding-y) + env(safe-area-inset-bottom));
