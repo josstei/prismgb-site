@@ -24,6 +24,8 @@ const resolvedSize = typeof size === 'number' ? size : SIZE_PRESETS[size];
 // External SVG files (too large to inline)
 const externalIcons: Record<string, string> = {
   'linux-download': '/icons/linux_download.svg',
+  'cartridge': '/icons/cartridge.svg',
+  'gem': '/icons/gem.svg',
 };
 
 const isExternal = name in externalIcons;
@@ -47,6 +49,8 @@ const icons: Record<string, string> = {
   'arrow-right': `<line x1="5" y1="12" x2="19" y2="12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><polyline points="12 5 19 12 12 19" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>`,
   'arrow-down': `<line x1="12" y1="5" x2="12" y2="19" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><polyline points="19 12 12 19 5 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>`,
   cable: `<path d="M17 21v-2a4 4 0 0 0-4-4H5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M9 19l-4-4 4-4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M7 3v2a4 4 0 0 0 4 4h8" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M15 5l4 4-4 4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>`,
+  kofi: `<path d="M12 8.5c-1.5-2-4-2-5.5 0S5 13 12 17c7-4 6.5-6.5 5-8.5s-4-2-5 0z" fill="currentColor"/><path d="M17 6h1.5a3 3 0 0 1 0 6H17" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><rect x="3" y="4" width="15" height="12" rx="2" fill="none" stroke="currentColor" stroke-width="2"/>`,
+  close: `<line x1="18" y1="6" x2="6" y2="18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><line x1="6" y1="6" x2="18" y2="18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>`,
 };
 
 const svgContent = icons[name] || icons['info'];
