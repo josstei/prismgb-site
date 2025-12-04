@@ -42,8 +42,8 @@ const getExternalIcon = (label: string) => externalIconMap[label.toLowerCase()] 
         src="/Logo.png"
         alt="PrismGB"
         class="header__logo"
-        width="120"
-        height="30"
+        width="128"
+        height="32"
       />
     </a>
 
@@ -84,7 +84,7 @@ const getExternalIcon = (label: string) => externalIconMap[label.toLowerCase()] 
   <div class="mobile-nav__overlay" id="mobileNavOverlay"></div>
   <nav class="mobile-nav" id="mobileNav" aria-label="Mobile navigation">
     <div class="mobile-nav__header">
-      <img src="/Logo.png" alt="PrismGB" class="mobile-nav__logo" width="100" height="25" />
+      <img src="/Logo.png" alt="PrismGB" class="mobile-nav__logo" width="112" height="28" />
       <button class="mobile-nav__close" id="mobileNavClose" aria-label="Close navigation menu" type="button">
         <Icon name="close" size={20} />
       </button>
@@ -233,6 +233,8 @@ const getExternalIcon = (label: string) => externalIconMap[label.toLowerCase()] 
     padding: 0;
     border-radius: var(--radius-sm);
     transition: background var(--transition-fast);
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
   }
 
   .header__hamburger:hover {
@@ -266,28 +268,31 @@ const getExternalIcon = (label: string) => externalIconMap[label.toLowerCase()] 
   /* ===== Mobile Navigation Wrapper ===== */
   .mobile-nav-wrapper {
     position: fixed;
-    inset: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
     z-index: 200;
     pointer-events: none;
-    visibility: hidden;
+    opacity: 0;
+    transition: opacity var(--transition-medium);
   }
 
   .mobile-nav-wrapper.is-open {
     pointer-events: auto;
-    visibility: visible;
+    opacity: 1;
   }
 
   /* ===== Mobile Overlay ===== */
   .mobile-nav__overlay {
     position: absolute;
-    inset: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
     background: rgba(0, 0, 0, 0.7);
-    opacity: 0;
-    transition: opacity var(--transition-medium);
-  }
-
-  .mobile-nav-wrapper.is-open .mobile-nav__overlay {
-    opacity: 1;
+    -webkit-tap-highlight-color: transparent;
+    cursor: pointer;
   }
 
   /* ===== Mobile Navigation Panel ===== */
@@ -337,6 +342,8 @@ const getExternalIcon = (label: string) => externalIconMap[label.toLowerCase()] 
     color: var(--text-secondary);
     cursor: pointer;
     transition: all var(--transition-fast);
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
   }
 
   .mobile-nav__close:hover {
@@ -441,21 +448,29 @@ const getExternalIcon = (label: string) => externalIconMap[label.toLowerCase()] 
     toggle?.focus();
   }
 
-  // Toggle button click
-  toggle?.addEventListener('click', () => {
-    const isOpen = toggle.getAttribute('aria-expanded') === 'true';
+  function handleToggle(e: Event) {
+    e.preventDefault();
+    const isOpen = toggle?.getAttribute('aria-expanded') === 'true';
     if (isOpen) {
       closeMenu();
     } else {
       openMenu();
     }
-  });
+  }
 
-  // Close button click
-  closeBtn?.addEventListener('click', closeMenu);
+  function handleClose(e: Event) {
+    e.preventDefault();
+    closeMenu();
+  }
 
-  // Overlay click
-  overlay?.addEventListener('click', closeMenu);
+  // Toggle button - use both click and touchend for iOS Safari
+  toggle?.addEventListener('click', handleToggle);
+
+  // Close button
+  closeBtn?.addEventListener('click', handleClose);
+
+  // Overlay - add both click and touchend for iOS Safari
+  overlay?.addEventListener('click', handleClose);
 
   // Link clicks
   nav?.querySelectorAll('a').forEach(link => {
