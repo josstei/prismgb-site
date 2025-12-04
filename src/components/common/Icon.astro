@@ -1,0 +1,81 @@
+---
+type SizePreset = 'xs' | 'sm' | 'md' | 'lg' | 'xl';
+
+interface Props {
+  name: string;
+  size?: number | SizePreset;
+  class?: string;
+}
+
+// Standard size presets (in pixels)
+const SIZE_PRESETS: Record<SizePreset, number> = {
+  xs: 12,
+  sm: 16,
+  md: 24,
+  lg: 32,
+  xl: 48,
+};
+
+const { name, size = 'md', class: className = '' } = Astro.props;
+
+// Resolve size to number
+const resolvedSize = typeof size === 'number' ? size : SIZE_PRESETS[size];
+
+// External SVG files (too large to inline)
+const externalIcons: Record<string, string> = {
+  'linux-download': '/icons/linux_download.svg',
+};
+
+const isExternal = name in externalIcons;
+
+// SVG icons inline for performance
+const icons: Record<string, string> = {
+  'app-window': `<rect x="2" y="3" width="20" height="18" rx="2" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="6" cy="6.5" r="1" fill="currentColor"/><circle cx="9.5" cy="6.5" r="1" fill="currentColor"/><circle cx="13" cy="6.5" r="1" fill="currentColor"/><line x1="2" y1="9" x2="22" y2="9" stroke="currentColor" stroke-width="2"/>`,
+  video: `<path d="M23 7l-7 5 7 5V7z" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2" fill="none" stroke="currentColor" stroke-width="2"/>`,
+  camera: `<path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="13" r="4" fill="none" stroke="currentColor" stroke-width="2"/>`,
+  record: `<circle cx="12" cy="12" r="10" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="12" r="3" fill="currentColor"/>`,
+  desktop: `<rect x="2" y="3" width="20" height="14" rx="2" ry="2" fill="none" stroke="currentColor" stroke-width="2"/><line x1="8" y1="21" x2="16" y2="21" stroke="currentColor" stroke-width="2"/><line x1="12" y1="17" x2="12" y2="21" stroke="currentColor" stroke-width="2"/>`,
+  download: `<path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><polyline points="7 10 12 15 17 10" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><line x1="12" y1="15" x2="12" y2="3" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>`,
+  github: `<path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>`,
+  'external-link': `<path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><polyline points="15 3 21 3 21 9" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><line x1="10" y1="14" x2="21" y2="3" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>`,
+  info: `<circle cx="12" cy="12" r="10" fill="none" stroke="currentColor" stroke-width="2"/><line x1="12" y1="16" x2="12" y2="12" stroke="currentColor" stroke-width="2"/><line x1="12" y1="8" x2="12.01" y2="8" stroke="currentColor" stroke-width="2"/>`,
+  'alert-triangle': `<path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><line x1="12" y1="9" x2="12" y2="13" stroke="currentColor" stroke-width="2"/><line x1="12" y1="17" x2="12.01" y2="17" stroke="currentColor" stroke-width="2"/>`,
+  windows: `<rect x="2" y="3" width="8" height="8" fill="white"/><rect x="12" y="3" width="10" height="8" fill="white"/><rect x="2" y="13" width="8" height="8" fill="white"/><rect x="12" y="13" width="10" height="8" fill="white"/>`,
+  apple: `<path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z" fill="white"/>`,
+  linux: `<path d="M12.504 2c-.457 0-.905.143-1.296.42-.39.278-.698.672-.898 1.143a3.72 3.72 0 00-.283 1.437c0 .505.096 1.001.283 1.437.2.47.507.864.898 1.143.391.277.84.42 1.296.42.457 0 .905-.143 1.296-.42.39-.279.698-.672.898-1.143.187-.436.283-.932.283-1.437s-.096-1.001-.283-1.437c-.2-.471-.508-.865-.898-1.143A2.043 2.043 0 0012.504 2zM8.01 8.5c-.723 0-1.34.51-1.34 1.15 0 .64.617 1.35 1.34 1.35s1.34-.71 1.34-1.35c0-.64-.617-1.15-1.34-1.15zm8.48 0c-.723 0-1.34.51-1.34 1.15 0 .64.617 1.35 1.34 1.35s1.34-.71 1.34-1.35c0-.64-.617-1.15-1.34-1.15zM5.5 12C4.12 12 3 13.12 3 14.5S4.12 17 5.5 17h.55c.24 2.3 1.9 4.2 4.05 4.8v.2a2 2 0 104 0v-.2c2.15-.6 3.81-2.5 4.05-4.8h.35c1.38 0 2.5-1.12 2.5-2.5S19.88 12 18.5 12h-13z" fill="currentColor"/>`,
+  heart: `<path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" fill="none" stroke="currentColor" stroke-width="2"/>`,
+  'arrow-right': `<line x1="5" y1="12" x2="19" y2="12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><polyline points="12 5 19 12 12 19" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>`,
+  'arrow-down': `<line x1="12" y1="5" x2="12" y2="19" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><polyline points="19 12 12 19 5 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>`,
+  cable: `<path d="M17 21v-2a4 4 0 0 0-4-4H5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M9 19l-4-4 4-4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M7 3v2a4 4 0 0 0 4 4h8" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M15 5l4 4-4 4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>`,
+};
+
+const svgContent = icons[name] || icons['info'];
+---
+
+{isExternal ? (
+  <img
+    class:list={['icon', className]}
+    src={externalIcons[name]}
+    width={resolvedSize}
+    height={resolvedSize}
+    alt=""
+    aria-hidden="true"
+  />
+) : (
+  <svg
+    class:list={['icon', className]}
+    width={resolvedSize}
+    height={resolvedSize}
+    viewBox="0 0 24 24"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+    aria-hidden="true"
+    set:html={svgContent}
+  />
+)}
+
+<style>
+  .icon {
+    flex-shrink: 0;
+  }
+</style>

@@ -1,0 +1,53 @@
+---
+interface Props {
+  id?: string;
+  variant?: 'default' | 'gradient' | 'dark';
+  class?: string;
+}
+
+const { id, variant = 'default', class: className = '' } = Astro.props;
+
+const variantClasses = {
+  default: '',
+  gradient: 'section--gradient',
+  dark: 'section--dark',
+};
+---
+
+<section id={id} class:list={['section', variantClasses[variant], className]}>
+  <div class="section__container">
+    <slot />
+  </div>
+</section>
+
+<style>
+  .section {
+    position: relative;
+    padding: var(--section-padding-y) var(--section-padding-x);
+    z-index: 1;
+  }
+
+  .section__container {
+    width: 100%;
+    max-width: var(--container-max);
+    margin: 0 auto;
+  }
+
+  .section--gradient {
+    background: linear-gradient(
+      180deg,
+      rgba(139, 92, 246, 0.05) 0%,
+      transparent 100%
+    );
+  }
+
+  .section--dark {
+    background: rgba(0, 0, 0, 0.2);
+  }
+
+  @media (max-width: 768px) {
+    .section {
+      padding: 3rem 1rem;
+    }
+  }
+</style>

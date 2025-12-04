@@ -1,0 +1,73 @@
+---
+interface Props {
+  variant?: 'default' | 'success' | 'info' | 'purple' | 'warning';
+  dot?: boolean;
+  class?: string;
+}
+
+const { variant = 'default', dot = false, class: className = '' } = Astro.props;
+
+const variantClasses = {
+  default: '',
+  success: 'badge--success',
+  info: 'badge--info',
+  purple: 'badge--purple',
+  warning: 'badge--warning',
+};
+---
+
+<span class:list={['badge', variantClasses[variant], className]}>
+  {dot && <span class="badge__dot" />}
+  <slot />
+</span>
+
+<style>
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.375rem 0.75rem;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: var(--radius-full);
+    font-size: 0.75rem;
+    font-weight: 500;
+    color: var(--text-primary);
+  }
+
+  .badge__dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: currentColor;
+    animation: pulse 2s ease-in-out infinite;
+  }
+
+  .badge--success {
+    background: var(--success-15);
+    border-color: var(--success-30);
+    color: var(--success);
+  }
+
+  .badge--success .badge__dot {
+    box-shadow: 0 0 8px var(--success-60);
+  }
+
+  .badge--info {
+    background: var(--info-15);
+    border-color: var(--info-30);
+    color: var(--info);
+  }
+
+  .badge--purple {
+    background: var(--accent-15);
+    border-color: var(--accent-30);
+    color: var(--accent-light);
+  }
+
+  .badge--warning {
+    background: var(--warning-15);
+    border-color: var(--warning-30);
+    color: var(--warning);
+  }
+</style>

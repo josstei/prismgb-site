@@ -1,0 +1,74 @@
+---
+interface Props {
+  variant?: 'default' | 'feature' | 'download' | 'warning';
+  glow?: boolean;
+  class?: string;
+  style?: string;
+}
+
+const { variant = 'default', glow = false, class: className = '', style } = Astro.props;
+
+const variantClasses = {
+  default: '',
+  feature: 'card--feature',
+  download: 'card--download',
+  warning: 'card--warning',
+};
+---
+
+<div class:list={['card', 'surface-panel', variantClasses[variant], glow && 'card--glow', className]} style={style}>
+  <slot name="icon" />
+  <slot />
+</div>
+
+<style>
+  .card {
+    border-radius: var(--radius-md);
+    padding: 1.5rem;
+    transition: all var(--transition-fast);
+  }
+
+  .card:hover {
+    border-color: var(--accent-40);
+    transform: translateY(-4px);
+    box-shadow: 0 8px 24px var(--accent-15);
+  }
+
+  .card--glow {
+    box-shadow: 0 0 20px var(--accent-20);
+  }
+
+  .card--glow:hover {
+    box-shadow: 0 0 30px var(--accent-30),
+                0 8px 24px var(--accent-15);
+  }
+
+  .card--feature {
+    text-align: center;
+    padding: 2rem;
+  }
+
+  .card--warning {
+    background: linear-gradient(
+      135deg,
+      var(--warning-10) 0%,
+      var(--warning-05) 100%
+    );
+    border-color: var(--warning-30);
+  }
+
+  .card--warning:hover {
+    border-color: var(--warning-50);
+    box-shadow: 0 8px 24px var(--warning-15);
+  }
+
+  @media (max-width: 768px) {
+    .card {
+      padding: 1.25rem;
+    }
+
+    .card--feature {
+      padding: 1.5rem;
+    }
+  }
+</style>

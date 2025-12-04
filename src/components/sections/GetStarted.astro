@@ -1,0 +1,226 @@
+---
+import Section from '../common/Section.astro';
+import StepIndicator from './StepIndicator.astro';
+import DemoGameboy from './DemoGameboy.astro';
+import DemoAppWindow from './DemoAppWindow.astro';
+
+interface Step {
+  number: number;
+  icon?: string;
+  image?: string;
+  title: string;
+  description: string;
+}
+
+interface Props {
+  steps: Step[];
+}
+
+const { steps } = Astro.props;
+---
+
+<Section id="get-started" class="get-started">
+  <div class="get-started__header">
+    <h2 class="get-started__title">Getting Started</h2>
+  </div>
+
+  <div class="get-started__content">
+    <StepIndicator steps={steps} class="get-started__steps" />
+    <div class="demo-artwork surface-soft">
+      <div class="demo-artwork__devices">
+        <DemoGameboy class="demo-gameboy--scaled" />
+        <div class="demo-connector">
+          <div class="connector-line"></div>
+        </div>
+        <DemoAppWindow class="demo-app--scaled" />
+      </div>
+    </div>
+  </div>
+</Section>
+
+<style>
+  /* Get Started Section */
+  .get-started__header {
+    text-align: center;
+    margin-bottom: 2rem;
+  }
+
+  .get-started__title {
+    font-size: clamp(2rem, 4vw, 2.5rem);
+    margin-bottom: 1rem;
+  }
+
+  .get-started__content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5rem;
+    width: 100%;
+  }
+
+  /* Steps positioned above demo */
+  .get-started__steps {
+    width: 100%;
+    max-width: 800px;
+  }
+
+  /* Demo Artwork Layout */
+  .demo-artwork {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 3rem 4rem;
+    min-height: 400px;
+    border-radius: var(--radius-lg);
+    width: 100%;
+    max-width: 900px;
+  }
+
+  /* Devices container - horizontal layout */
+  .demo-artwork__devices {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0;
+  }
+
+  /* Scaled gameboy */
+  :global(.demo-gameboy--scaled) {
+    transform: scale(0.9);
+    transform-origin: center right;
+    position: relative;
+    z-index: 2;
+  }
+
+  /* Horizontal connector between gameboy and app */
+  .demo-connector {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 1.5rem;
+    z-index: 1;
+  }
+
+  .connector-line {
+    width: 64px;
+    height: 3px;
+    background: var(--accent-20);
+    position: relative;
+    overflow: hidden;
+    border-radius: 2px;
+  }
+
+  .connector-line::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, var(--accent-bright), transparent);
+    animation: flowLine 2s ease-in-out infinite;
+  }
+
+  @keyframes flowLine {
+    0% {
+      left: -100%;
+    }
+    50% {
+      left: 100%;
+    }
+    100% {
+      left: 100%;
+    }
+  }
+
+  /* Scaled up app window */
+  .demo-app--scaled {
+    transform: scale(1.5);
+    transform-origin: center left;
+    z-index: 2;
+    margin-right: 4rem;
+  }
+
+  @media (max-width: 1200px) {
+    .demo-artwork {
+      padding: 2rem 3rem;
+      min-height: 350px;
+    }
+
+    :global(.demo-gameboy--scaled) {
+      transform: scale(0.85);
+    }
+
+    .demo-app--scaled {
+      transform: scale(1.3);
+      margin-right: 2rem;
+    }
+
+    .connector-line {
+      width: 48px;
+    }
+  }
+
+  @media (max-width: 900px) {
+    .get-started__content {
+      gap: 1.25rem;
+    }
+
+    .demo-artwork {
+      padding: 1.5rem;
+      min-height: auto;
+    }
+
+    :global(.demo-gameboy--scaled) {
+      transform: scale(1);
+      transform-origin: center;
+    }
+
+    .demo-app--scaled {
+      transform: scale(1);
+      transform-origin: center;
+      margin-right: 0;
+    }
+
+    .demo-connector {
+      padding: 0 1rem;
+    }
+
+    .connector-line {
+      width: 40px;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .get-started__content {
+      gap: 1rem;
+    }
+
+    .demo-artwork {
+      padding: 1rem;
+    }
+
+    .demo-artwork__devices {
+      flex-direction: column;
+      gap: 0;
+      align-items: center;
+    }
+
+    :global(.demo-gameboy--scaled) {
+      flex-shrink: 0;
+    }
+
+    .demo-app--scaled {
+      flex-shrink: 0;
+    }
+
+    .demo-connector {
+      padding: 0.75rem 0;
+      transform: rotate(90deg);
+    }
+
+    .connector-line {
+      width: 32px;
+    }
+  }
+</style>

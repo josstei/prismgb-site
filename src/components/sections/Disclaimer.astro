@@ -1,0 +1,113 @@
+---
+import Section from '../common/Section.astro';
+import Card from '../common/Card.astro';
+import Button from '../common/Button.astro';
+import Icon from '../common/Icon.astro';
+
+interface Props {
+  modretroUrl?: string;
+}
+
+const { modretroUrl = 'https://modretro.com' } = Astro.props;
+---
+
+<Section id="disclaimer">
+  <Card variant="warning" class="disclaimer__card">
+    <div class="disclaimer__icon">
+      <Icon name="alert-triangle" size={32} />
+    </div>
+
+    <h3 class="disclaimer__title">Community Project Notice</h3>
+
+    <p class="disclaimer__text">
+      PrismGB is an <strong>independent, community-driven project</strong> created by a passionate
+      retro gaming enthusiast. This software is <strong>not affiliated with, endorsed by, or
+      sponsored by ModRetro, Chromatic, or any game developers or publishers</strong> whose
+      titles are playable on the device.
+    </p>
+
+    <p class="disclaimer__text">
+      The Chromatic device is a product of ModRetro. All game titles and trademarks are the
+      property of their respective owners. For official support, firmware updates, and
+      information about the Chromatic, please visit the official ModRetro website.
+    </p>
+
+    <div class="disclaimer__actions">
+      <Button
+        href={modretroUrl}
+        variant="outline"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        <Icon name="external-link" size={16} slot="icon-left" />
+        Visit ModRetro
+      </Button>
+    </div>
+  </Card>
+</Section>
+
+<style>
+  .disclaimer__card {
+    max-width: 800px;
+    margin: 0 auto;
+    text-align: center;
+    padding: 3rem;
+  }
+
+  .disclaimer__icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 64px;
+    height: 64px;
+    margin: 0 auto 2rem;
+    background: var(--warning-10);
+    border-radius: 50%;
+    color: var(--warning);
+  }
+
+  .disclaimer__title {
+    font-size: 1.5rem;
+    margin-bottom: 1.75rem;
+    color: var(--text-white);
+    text-align: center;
+  }
+
+  .disclaimer__text {
+    font-size: 0.9375rem;
+    color: var(--text-secondary);
+    line-height: 1.8;
+    margin-bottom: 1.5rem;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .disclaimer__text:last-of-type {
+    margin-bottom: 2rem;
+  }
+
+  .disclaimer__text strong {
+    color: var(--text-white);
+    font-weight: 600;
+  }
+
+  .disclaimer__actions {
+    display: flex;
+    justify-content: center;
+  }
+
+  @media (max-width: 768px) {
+    .disclaimer__card {
+      padding: 1.5rem;
+    }
+
+    .disclaimer__title {
+      font-size: 1.25rem;
+    }
+
+    .disclaimer__text {
+      font-size: 0.875rem;
+    }
+  }
+</style>

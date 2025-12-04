@@ -1,0 +1,234 @@
+---
+import Section from '../common/Section.astro';
+import Card from '../common/Card.astro';
+import Button from '../common/Button.astro';
+import Badge from '../common/Badge.astro';
+import Icon from '../common/Icon.astro';
+
+interface Platform {
+  name: string;
+  icon: string;
+  label: string;
+  downloadUrl?: string;
+  filename?: string;
+}
+
+interface Props {
+  version?: string;
+  githubUrl?: string;
+  platforms?: Platform[];
+  kofiUsername?: string;
+}
+
+const {
+  version = '',
+  githubUrl = '#',
+  platforms = [],
+  kofiUsername = '',
+} = Astro.props;
+---
+
+<Section id="download" variant="dark" class="download">
+  <div class="download__header">
+    <h2 class="download__title">Download PrismGB</h2>
+    <Badge variant="success" dot>v{version} Latest</Badge>
+  </div>
+
+  <div class="download__grid">
+    {platforms.map((platform, index) => (
+      <Card variant="download" class="download__card surface-strong" style={`--delay: ${index * 100}ms`}>
+        <div class="download__platform-icon surface-strong">
+          <Icon name={platform.icon} size={40} />
+        </div>
+        <h3 class="download__platform-name">{platform.label}</h3>
+        {platform.filename && (
+          <span class="download__filename">{platform.filename}</span>
+        )}
+        <Button
+          variant="primary"
+          class="download__button"
+          type="button"
+        >
+          Coming Soon!
+        </Button>
+      </Card>
+    ))}
+  </div>
+
+  <div class="download__footer">
+    <p class="download__note">
+      All downloads are free and open source.
+    </p>
+    <a href={githubUrl} target="_blank" rel="noopener noreferrer" class="download__github">
+      <Icon name="github" size={20} />
+      View on GitHub
+      <Icon name="external-link" size={14} />
+    </a>
+    {kofiUsername && (
+      <div class="download__support">
+        <a
+          href={`https://ko-fi.com/${kofiUsername}`}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="download__kofi"
+        >
+          <Icon name="heart" size={14} />
+          Support on Ko-fi
+        </a>
+      </div>
+    )}
+  </div>
+</Section>
+
+<style>
+  .download__header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    text-align: center;
+    margin-bottom: 3rem;
+  }
+
+  .download__title {
+    font-size: clamp(2rem, 4vw, 2.5rem);
+  }
+
+  .download__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 1.5rem;
+    max-width: 900px;
+    margin: 0 auto;
+  }
+
+  :global(.download__card) {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 2rem;
+    height: 100%;
+    animation: fadeInUp 0.6s ease forwards;
+    animation-delay: var(--delay);
+    opacity: 0;
+  }
+
+  :global(.download__card .download__platform-icon) {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 80px;
+    height: 80px;
+    margin-bottom: 1.25rem;
+    border-radius: var(--radius-lg);
+    color: var(--accent-bright);
+    flex-shrink: 0;
+  }
+
+  :global(.download__card .download__platform-name) {
+    font-size: 1.25rem;
+    margin-bottom: 0.5rem;
+    color: var(--text-white);
+    white-space: nowrap;
+  }
+
+  :global(.download__card .download__filename) {
+    display: block;
+    font-size: 0.8125rem;
+    color: var(--text-muted);
+    margin-bottom: 1.25rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 100%;
+  }
+
+  :global(.download__card .download__button) {
+    width: 100%;
+    margin-top: auto;
+    white-space: nowrap;
+  }
+
+  .download__footer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    margin-top: 3rem;
+    padding-top: 2rem;
+    border-top: 1px solid var(--accent-15);
+  }
+
+  .download__note {
+    font-size: 0.875rem;
+    color: var(--text-muted);
+    margin: 0;
+  }
+
+  .download__github {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--text-secondary);
+    text-decoration: none;
+    font-size: 0.9375rem;
+    transition: color var(--transition-fast);
+  }
+
+  .download__github:hover {
+    color: var(--text-white);
+  }
+
+  .download__support {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding-top: 1rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+    margin-top: 0.5rem;
+  }
+
+  .download__kofi {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.375rem;
+    color: var(--accent-bright);
+    text-decoration: none;
+    font-size: 0.875rem;
+    font-weight: 500;
+    transition: color var(--transition-fast);
+  }
+
+  .download__kofi:hover {
+    color: var(--kofi);
+  }
+
+  .download__kofi :global(.icon) {
+    color: var(--kofi);
+  }
+
+  @media (max-width: 900px) {
+    .download__grid {
+      gap: 1rem;
+    }
+  }
+
+  @media (max-width: 600px) {
+    .download__grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      max-width: 520px;
+      gap: 0.75rem;
+    }
+
+    :global(.download__card) {
+      padding: 1.5rem;
+    }
+
+    :global(.download__card .download__platform-icon) {
+      width: 64px;
+      height: 64px;
+      margin-bottom: 1rem;
+    }
+  }
+</style>

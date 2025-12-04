@@ -1,0 +1,163 @@
+---
+import Section from '../common/Section.astro';
+import Button from '../common/Button.astro';
+import Icon from '../common/Icon.astro';
+
+interface Props {
+  tagline?: string;
+  description?: string;
+}
+
+const {
+  tagline = '',
+  description = '',
+  title = '',
+} = Astro.props;
+---
+
+<Section id="hero" class="hero">
+  <div class="hero__content">
+    <div class="hero__icon-wrapper">
+      <img
+        src="/icons/gem.svg"
+        alt="PrismGB icon"
+        class="hero__icon"
+        width="96"
+        height="96"
+      />
+    </div>
+
+    <img
+      src="/Logo.png"
+      alt="PrismGB"
+      class="hero__logo"
+      width="384"
+      height="96"
+    />
+
+    <h1 class="hero__title">{title}</h1>
+
+    <p class="hero__tagline">{tagline}</p>
+
+    <p class="hero__description">{description}</p>
+
+    <div class="hero__actions">
+      <Button href="#download" variant="primary" size="lg">
+        <Icon name="download" size={18} slot="icon-left" />
+        Download Now
+      </Button>
+      <Button href="#features" variant="secondary" size="lg">
+        Learn More
+      </Button>
+    </div>
+  </div>
+</Section>
+
+<style>
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    padding-top: 6rem; /* Account for fixed header */
+  }
+
+  .hero__content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    max-width: 800px;
+    margin: 0 auto;
+    padding-top: 4rem;
+  }
+
+  .hero__icon-wrapper {
+    margin-bottom: 2rem;
+    animation: fadeInUp 0.6s ease forwards;
+  }
+
+  .hero__icon {
+    image-rendering: pixelated;
+    image-rendering: crisp-edges;
+    filter: drop-shadow(0 0 20px rgba(255, 0, 153, 0.6))
+            drop-shadow(0 0 40px rgba(0, 255, 153, 0.3));
+    animation: icon-glow 6s ease-in-out infinite, float 3s ease-in-out infinite;
+  }
+
+  .hero__logo {
+    margin-bottom: 1rem;
+    animation: fadeInUp 0.6s ease 0.1s forwards;
+    opacity: 0;
+    image-rendering: pixelated;
+    image-rendering: crisp-edges;
+    filter: drop-shadow(0 0 10px rgba(139, 92, 246, 0.4));
+  }
+
+  .hero__tagline {
+    font-size: 1.5rem;
+    color: var(--text-secondary);
+    margin-bottom: 1rem;
+    animation: fadeInUp 0.6s ease 0.2s forwards;
+    opacity: 0;
+  }
+
+  .hero__title {
+    font-size: clamp(2rem, 4vw, 3rem);
+    margin: 0 0 0.75rem 0;
+    animation: fadeInUp 0.6s ease 0.15s forwards;
+    opacity: 0;
+  }
+
+  .hero__description {
+    font-size: 1.125rem;
+    color: var(--text-muted);
+    max-width: 600px;
+    margin-bottom: 2.5rem;
+    animation: fadeInUp 0.6s ease 0.3s forwards;
+    opacity: 0;
+  }
+
+  .hero__actions {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    justify-content: center;
+    animation: fadeInUp 0.6s ease 0.4s forwards;
+    opacity: 0;
+  }
+
+  @media (max-width: 768px) {
+    .hero {
+      padding-top: 5rem;
+      min-height: auto;
+      padding-bottom: 4rem;
+    }
+
+    .hero__icon {
+      width: 72px;
+      height: 72px;
+    }
+
+    .hero__logo {
+      width: 280px;
+      height: auto;
+    }
+
+    .hero__tagline {
+      font-size: 1.25rem;
+    }
+
+    .hero__description {
+      font-size: 1rem;
+    }
+
+    .hero__actions {
+      flex-direction: column;
+      width: 100%;
+    }
+
+    .hero__actions :global(.btn) {
+      width: 100%;
+    }
+  }
+</style>

@@ -1,0 +1,109 @@
+---
+import Section from '../common/Section.astro';
+import Card from '../common/Card.astro';
+import Icon from '../common/Icon.astro';
+
+interface Feature {
+  icon: string;
+  title: string;
+  description: string;
+}
+
+interface Props {
+  features?: Feature[];
+}
+
+const { features = [] } = Astro.props;
+---
+
+<Section id="features" variant="gradient" class="features">
+  <div class="features__header">
+    <h2 class="features__title">Features</h2>
+    <p class="features__subtitle">
+      Everything you need to enjoy your Chromatic on the big screen
+    </p>
+  </div>
+
+  <div class="features__grid">
+    {features.map((feature, index) => (
+      <Card variant="feature" glow class="features__card" style={`--delay: ${index * 100}ms`}>
+        <div class="features__icon-wrapper" slot="icon">
+          <Icon name={feature.icon} size={32} class="features__icon" />
+        </div>
+        <h3 class="features__card-title">{feature.title}</h3>
+        <p class="features__card-description">{feature.description}</p>
+      </Card>
+    ))}
+  </div>
+</Section>
+
+<style>
+  .features__header {
+    text-align: center;
+    margin-bottom: 3rem;
+  }
+
+  .features__title {
+    font-size: clamp(2rem, 4vw, 2.5rem);
+    margin-bottom: 1rem;
+  }
+
+  .features__subtitle {
+    font-size: 1.125rem;
+    color: var(--text-secondary);
+    max-width: 500px;
+    margin: 0 auto;
+  }
+
+  .features__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 1.5rem;
+  }
+
+  .features__card {
+    animation: fadeInUp 0.6s ease forwards;
+    animation-delay: var(--delay);
+    opacity: 0;
+  }
+
+  .features__icon-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 64px;
+    height: 64px;
+    margin: 0 auto 1.25rem;
+    background: linear-gradient(
+      135deg,
+      var(--accent-20) 0%,
+      var(--accent-10) 100%
+    );
+    border-radius: var(--radius-md);
+    border: 1px solid var(--accent-30);
+  }
+
+  .features__icon {
+    color: var(--accent-bright);
+  }
+
+  .features__card-title {
+    font-size: 1.25rem;
+    margin-bottom: 0.75rem;
+    color: var(--text-white);
+  }
+
+  .features__card-description {
+    font-size: 0.9375rem;
+    color: var(--text-secondary);
+    line-height: 1.6;
+    margin: 0;
+  }
+
+  @media (max-width: 768px) {
+    .features__grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 1rem;
+    }
+  }
+</style>

@@ -1,0 +1,180 @@
+---
+interface Props {
+  class?: string;
+}
+
+const { class: className = '' } = Astro.props;
+---
+
+<div class:list={['artwork__device', className]} data-demo-handheld>
+  <div class="handheld">
+    <div class="handheld__screen">
+      <canvas width="70" height="63"></canvas>
+      <div class="handheld__scanlines"></div>
+    </div>
+    <div class="handheld__controls">
+      <div class="handheld__dpad"></div>
+      <div class="handheld__buttons">
+        <span></span>
+        <span></span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  .artwork__device {
+    position: relative;
+    z-index: 2;
+  }
+
+  .handheld {
+    width: 100px;
+    background: transparent;
+    border: 2px solid var(--accent-bright, #8b5cf6);
+    border-radius: 10px 10px 20px 20px;
+    padding: 10px;
+  }
+
+  .handheld__screen {
+    position: relative;
+    background: transparent;
+    border: 2px solid var(--accent-bright, #8b5cf6);
+    border-radius: 4px;
+    padding: 4px;
+    margin-bottom: 12px;
+  }
+
+  .handheld__screen canvas {
+    display: block;
+    width: 100%;
+    height: auto;
+    image-rendering: pixelated;
+    image-rendering: crisp-edges;
+    border-radius: 2px;
+  }
+
+  .handheld__scanlines {
+    position: absolute;
+    inset: 4px;
+    background: repeating-linear-gradient(
+      0deg,
+      rgba(139, 92, 246, 0.08) 0px,
+      rgba(139, 92, 246, 0.08) 1px,
+      transparent 1px,
+      transparent 3px
+    );
+    pointer-events: none;
+    border-radius: 2px;
+  }
+
+  .handheld__controls {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 4px;
+  }
+
+  .handheld__dpad {
+    width: 28px;
+    height: 28px;
+    position: relative;
+  }
+
+  .handheld__dpad::before,
+  .handheld__dpad::after {
+    content: '';
+    position: absolute;
+    background: transparent;
+    border: 2px solid var(--accent-bright, #8b5cf6);
+    border-radius: 2px;
+  }
+
+  .handheld__dpad::before {
+    width: 8px;
+    height: 24px;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+  }
+
+  .handheld__dpad::after {
+    width: 24px;
+    height: 8px;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+  }
+
+  .handheld__buttons {
+    display: flex;
+    gap: 6px;
+    transform: rotate(-20deg);
+  }
+
+  .handheld__buttons span {
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background: transparent;
+    border: 2px solid var(--accent-bright, #8b5cf6);
+  }
+
+  @media (max-width: 768px) {
+    .artwork__device {
+      flex-shrink: 0;
+    }
+
+    .handheld {
+      width: 100px;
+      min-width: 100px;
+      padding: 10px;
+    }
+
+    .handheld__dpad {
+      width: 28px;
+      height: 28px;
+    }
+
+    .handheld__dpad::before {
+      width: 8px;
+      height: 24px;
+    }
+
+    .handheld__dpad::after {
+      width: 24px;
+      height: 8px;
+    }
+
+    .handheld__buttons span {
+      width: 14px;
+      height: 14px;
+    }
+  }
+</style>
+
+<script>
+  import { drawGameFrame } from '../../scripts/demo-canvas.js';
+  import { registerRenderer } from '../../scripts/demo-animator.js';
+
+  document.addEventListener('DOMContentLoaded', () => {
+    const scriptEl = document.currentScript;
+    const root = (scriptEl?.closest('[data-demo-handheld]') || document.querySelector('[data-demo-handheld]')) as HTMLElement | null;
+    const handheldCanvas = root?.querySelector('canvas') as HTMLCanvasElement | null;
+    const handheldCtx = handheldCanvas?.getContext('2d');
+
+    const cleanupRenderer = registerRenderer(handheldCtx, handheldCanvas, (ctx, width, height, time) => {
+      drawGameFrame(ctx, width, height, time);
+    });
+
+    // Seed a still frame for reduced-motion users
+    if (handheldCtx && handheldCanvas) {
+      drawGameFrame(handheldCtx, handheldCanvas.width, handheldCanvas.height, 0);
+    }
+
+    // Cleanup on page unload
+    window.addEventListener('beforeunload', () => {
+      cleanupRenderer();
+    });
+  });
+</script>

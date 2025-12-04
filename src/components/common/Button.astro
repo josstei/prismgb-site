@@ -1,0 +1,158 @@
+---
+interface Props {
+  variant?: 'primary' | 'secondary' | 'outline';
+  size?: 'sm' | 'md' | 'lg';
+  href?: string;
+  class?: string;
+  target?: string;
+  rel?: string;
+  type?: 'button' | 'submit' | 'reset';
+}
+
+const {
+  variant = 'primary',
+  size = 'md',
+  href,
+  class: className = '',
+  target,
+  rel,
+  type = 'button',
+} = Astro.props;
+
+const Element = href ? 'a' : 'button';
+
+const variantClasses = {
+  primary: 'btn--primary',
+  secondary: 'btn--secondary',
+  outline: 'btn--outline',
+};
+
+const sizeClasses = {
+  sm: 'btn--sm',
+  md: '',
+  lg: 'btn--lg',
+};
+---
+
+<Element
+  href={href}
+  target={target}
+  rel={rel}
+  type={Element === 'button' ? type : undefined}
+  class:list={['btn', variantClasses[variant], sizeClasses[size], className]}
+>
+  <slot name="icon-left" />
+  <slot />
+  <slot name="icon-right" />
+</Element>
+
+<style>
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1.5rem;
+    border: none;
+    border-radius: var(--radius-md);
+    font-size: 0.875rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    outline: none;
+    white-space: nowrap;
+    position: relative;
+    overflow: hidden;
+    text-decoration: none;
+  }
+
+  /* Shimmer effect */
+  .btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      rgba(255, 255, 255, 0.2),
+      transparent
+    );
+    transition: left 0.5s;
+  }
+
+  .btn:hover::before {
+    left: 100%;
+  }
+
+  .btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+  }
+
+  .btn:active {
+    transform: translateY(0);
+  }
+
+  /* Sizes */
+  .btn--sm {
+    padding: 0.5rem 1rem;
+    font-size: 0.75rem;
+  }
+
+  .btn--lg {
+    padding: 1rem 2rem;
+    font-size: 1rem;
+  }
+
+  /* Variants */
+  .btn--primary {
+    background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
+    color: white;
+    box-shadow: 0 4px 14px rgba(139, 92, 246, 0.4);
+  }
+
+  .btn--primary:hover {
+    background: linear-gradient(135deg, #7c3aed 0%, #6d28d9 100%);
+    box-shadow: 0 6px 20px rgba(139, 92, 246, 0.5);
+  }
+
+  .btn--secondary {
+    background: linear-gradient(
+      135deg,
+      rgba(255, 255, 255, 0.1) 0%,
+      rgba(255, 255, 255, 0.05) 100%
+    );
+    color: var(--text-primary);
+    border: 2px solid rgba(139, 92, 246, 0.3);
+  }
+
+  .btn--secondary:hover {
+    background: linear-gradient(
+      135deg,
+      rgba(255, 255, 255, 0.15) 0%,
+      rgba(255, 255, 255, 0.08) 100%
+    );
+    border-color: rgba(139, 92, 246, 0.5);
+  }
+
+  .btn--outline {
+    background: transparent;
+    color: var(--accent-bright);
+    border: 2px solid var(--accent-bright);
+  }
+
+  .btn--outline:hover {
+    background: rgba(139, 92, 246, 0.1);
+    border-color: var(--accent-light);
+    color: var(--accent-light);
+  }
+
+  @media (max-width: 768px) {
+    .btn--lg {
+      padding: 0.875rem 1.5rem;
+    }
+  }
+</style>

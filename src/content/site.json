@@ -1,0 +1,83 @@
+{
+  "site": {
+    "title": "PrismGB",
+    "tagline": "A desktop companion for your Mod Retro Chromatic",
+    "description": "Stream, capture, and record gameplay from your Chromatic device. Experience your retro games on the big screen with pixel-perfect clarity."
+  },
+  "navigation": [
+    { "label": "Features", "href": "#features" },
+    { "label": "Get Started", "href": "#get-started" },
+    { "label": "Download", "href": "#download" },
+    { "label": "GitHub", "href": "https://github.com", "external": true }
+  ],
+  "features": [
+    {
+      "icon": "video",
+      "title": "Live Streaming",
+      "description": "Stream your Chromatic gameplay directly to your desktop with ultra-low latency. Perfect for capturing those retro gaming moments."
+    },
+    {
+      "icon": "camera",
+      "title": "Screenshots",
+      "description": "Capture pixel-perfect screenshots with a single click. Save your favorite gaming moments in crisp, original resolution."
+    },
+    {
+      "icon": "record",
+      "title": "Recording",
+      "description": "Record gameplay sessions to share with friends or create content. Supports multiple output formats."
+    },
+    {
+      "icon": "desktop",
+      "title": "Cross-Platform",
+      "description": "Works on Windows, macOS, and Linux. Use your preferred operating system without compromise."
+    }
+  ],
+  "download": {
+    "version": "1.0.0",
+    "githubUrl": "https://github.com",
+    "kofiUsername": "josstei",
+    "platforms": [
+      {
+        "name": "windows",
+        "icon": "windows",
+        "label": "Windows",
+        "filename": "PrismGB-Setup.exe"
+      },
+      {
+        "name": "macos",
+        "icon": "apple",
+        "label": "macOS",
+        "filename": "PrismGB.dmg"
+      },
+      {
+        "name": "linux",
+        "icon": "linux-download",
+        "label": "Linux",
+      "filename": "PrismGB.AppImage"
+    }
+  ]
+  },
+  "gettingStarted": [
+    {
+      "number": 1,
+      "icon": "app-window",
+      "title": "Launch PrismGB",
+      "description": "Download and open the app on your computer"
+    },
+    {
+      "number": 2,
+      "icon": "cable",
+      "title": "Connect Your Chromatic",
+      "description": "Plug in your device via USB"
+    },
+    {
+      "number": 3,
+      "image": "/icons/cartridge.svg",
+      "title": "Click the Cartridge",
+      "description": "Start gaming on the big screen"
+    }
+  ],
+  "disclaimer": {
+    "modretroUrl": "https://modretro.com"
+  }
+}

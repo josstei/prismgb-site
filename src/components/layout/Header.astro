@@ -1,0 +1,359 @@
+---
+import Button from '../common/Button.astro';
+import Icon from '../common/Icon.astro';
+
+interface NavItem {
+  label: string;
+  href: string;
+  external?: boolean;
+}
+
+interface Props {
+  class?: string;
+  navigation?: NavItem[];
+}
+
+const { class: className = '', navigation = [] } = Astro.props;
+const internalLinks = navigation.filter((item) => !item.external);
+const externalLinks = navigation.filter((item) => item.external);
+const downloadHref =
+  navigation.find((item) => item.label.toLowerCase() === 'download')?.href ||
+  '#download';
+const githubLink = externalLinks.find((item) => item.label.toLowerCase() === 'github');
+---
+
+<header class:list={['header', className]}>
+  <div class="header__container">
+    <a href="/" class="header__brand">
+      <img
+        src="/Logo.png"
+        alt="PrismGB"
+        class="header__icon"
+        width="120"
+        height="30"
+      />
+    </a>
+
+    <nav class="header__nav">
+      {internalLinks.map((item) => (
+        <a href={item.href} class="header__link">{item.label}</a>
+      ))}
+    </nav>
+
+    <div class="header__actions">
+      <Button href={downloadHref} variant="primary" size="sm">
+        Download
+      </Button>
+      {githubLink && (
+        <a href={githubLink.href} target="_blank" rel="noopener noreferrer" class="header__github" aria-label="GitHub">
+          <Icon name="github" size={24} />
+        </a>
+      )}
+    </div>
+
+    <button
+      class="header__mobile-toggle"
+      aria-label="Toggle navigation menu"
+      aria-expanded="false"
+      aria-controls="mobileNav"
+      id="mobileToggle"
+    >
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+  </div>
+
+  <!-- Mobile Navigation Drawer -->
+  <div class="mobile-nav__overlay" id="mobileNavOverlay"></div>
+  <nav class="mobile-nav" id="mobileNav" aria-label="Mobile navigation">
+    {internalLinks.map((item) => (
+      <a href={item.href} class="mobile-nav__link">{item.label}</a>
+    ))}
+    <div class="mobile-nav__divider"></div>
+    {externalLinks.map((item) => (
+      <a href={item.href} target="_blank" rel="noopener noreferrer" class="mobile-nav__link mobile-nav__link--external">
+        <Icon name="external-link" size={20} />
+        {item.label}
+      </a>
+    ))}
+  </nav>
+</header>
+
+<style>
+  .header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
+    background: linear-gradient(
+      180deg,
+      rgba(26, 26, 46, 0.95) 0%,
+      rgba(15, 15, 30, 0.9) 100%
+    );
+    border-bottom: 1px solid var(--accent-15);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+  }
+
+  .header__container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    max-width: var(--container-max);
+    margin: 0 auto;
+    padding: 1rem 2rem;
+  }
+
+  .header__brand {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    text-decoration: none;
+  }
+
+  .header__icon {
+    height: 32px;
+    width: auto;
+    max-width: 140px;
+    image-rendering: pixelated;
+    image-rendering: crisp-edges;
+  }
+
+  .header__nav {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+  }
+
+  .header__link {
+    color: var(--text-secondary);
+    text-decoration: none;
+    font-size: 0.875rem;
+    font-weight: 500;
+    transition: color var(--transition-fast);
+    position: relative;
+  }
+
+  .header__link::after {
+    content: '';
+    position: absolute;
+    bottom: -4px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: var(--rainbow-gradient);
+    background-size: 200% 100%;
+    transition: width var(--transition-fast);
+  }
+
+  .header__link:hover {
+    color: var(--text-white);
+  }
+
+  .header__link:hover::after {
+    width: 100%;
+  }
+
+  .header__actions {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .header__github {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    background: rgba(255, 255, 255, 0.05);
+    color: var(--text-primary);
+    transition: all var(--transition-fast);
+  }
+
+  .header__github:hover {
+    border-color: rgba(255, 255, 255, 0.4);
+    background: rgba(255, 255, 255, 0.1);
+    color: var(--text-white);
+  }
+
+  .header__mobile-toggle {
+    display: none;
+    flex-direction: column;
+    gap: 4px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 4px;
+  }
+
+  .header__mobile-toggle span {
+    display: block;
+    width: 24px;
+    height: 2px;
+    background: var(--text-primary);
+    transition: all var(--transition-fast);
+  }
+
+  /* Mobile Navigation Drawer */
+  .mobile-nav__overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity var(--transition-medium), visibility var(--transition-medium);
+    z-index: 90;
+  }
+
+  .mobile-nav__overlay.is-open {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  .mobile-nav {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: min(300px, 80vw);
+    background: linear-gradient(
+      180deg,
+      rgba(26, 26, 46, 0.98) 0%,
+      rgba(15, 15, 30, 0.98) 100%
+    );
+    border-left: 1px solid var(--accent-20);
+    padding: 5rem 1.5rem 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    transform: translateX(100%);
+    transition: transform var(--transition-medium);
+    z-index: 95;
+  }
+
+  .mobile-nav.is-open {
+    transform: translateX(0);
+  }
+
+  .mobile-nav__link {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 1rem;
+    color: var(--text-secondary);
+    text-decoration: none;
+    font-size: 1rem;
+    font-weight: 500;
+    border-radius: var(--radius-sm);
+    transition: all var(--transition-fast);
+  }
+
+  .mobile-nav__link:hover,
+  .mobile-nav__link:focus {
+    color: var(--text-white);
+    background: var(--accent-10);
+  }
+
+  .mobile-nav__divider {
+    height: 1px;
+    background: var(--accent-15);
+    margin: 0.5rem 0;
+  }
+
+  /* Hamburger to X animation */
+  .header__mobile-toggle[aria-expanded="true"] span:nth-child(1) {
+    transform: rotate(45deg) translate(5px, 5px);
+  }
+
+  .header__mobile-toggle[aria-expanded="true"] span:nth-child(2) {
+    opacity: 0;
+  }
+
+  .header__mobile-toggle[aria-expanded="true"] span:nth-child(3) {
+    transform: rotate(-45deg) translate(5px, -5px);
+  }
+
+  @media (max-width: 768px) {
+    .header__container {
+      padding: 0.75rem 1rem;
+    }
+
+    .header__nav {
+      display: none;
+    }
+
+    .header__actions {
+      display: none;
+    }
+
+    .header__mobile-toggle {
+      display: flex;
+    }
+
+    .header__icon {
+      height: 28px;
+      max-width: 120px;
+    }
+  }
+
+  /* Hide mobile nav on desktop */
+  @media (min-width: 769px) {
+    .mobile-nav,
+    .mobile-nav__overlay {
+      display: none;
+    }
+  }
+</style>
+
+<script>
+  const toggle = document.getElementById('mobileToggle');
+  const nav = document.getElementById('mobileNav');
+  const overlay = document.getElementById('mobileNavOverlay');
+
+  function openMenu() {
+    toggle?.setAttribute('aria-expanded', 'true');
+    nav?.classList.add('is-open');
+    overlay?.classList.add('is-open');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeMenu() {
+    toggle?.setAttribute('aria-expanded', 'false');
+    nav?.classList.remove('is-open');
+    overlay?.classList.remove('is-open');
+    document.body.style.overflow = '';
+  }
+
+  // Toggle menu on button click
+  toggle?.addEventListener('click', () => {
+    const isOpen = toggle.getAttribute('aria-expanded') === 'true';
+    if (isOpen) {
+      closeMenu();
+    } else {
+      openMenu();
+    }
+  });
+
+  // Close menu when clicking overlay
+  overlay?.addEventListener('click', closeMenu);
+
+  // Close menu when clicking a link
+  nav?.querySelectorAll('a').forEach(link => {
+    link.addEventListener('click', closeMenu);
+  });
+
+  // Close menu on escape key
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && nav?.classList.contains('is-open')) {
+      closeMenu();
+      toggle?.focus(); // Return focus to toggle button
+    }
+  });
+</script>
