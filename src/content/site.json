@@ -8,7 +8,8 @@
     { "label": "Features", "href": "#features" },
     { "label": "Get Started", "href": "#get-started" },
     { "label": "Download", "href": "#download" },
-    { "label": "GitHub", "href": "https://github.com", "external": true }
+    { "label": "GitHub", "href": "https://github.com", "external": true },
+    { "label": "Ko-fi", "href": "https://ko-fi.com/josstei", "external": true }
   ],
   "features": [
     {
