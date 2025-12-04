@@ -60,6 +60,7 @@ const currentYear = new Date().getFullYear();
       rgba(15, 15, 30, 0.5) 100%
     );
     padding: var(--section-padding-y) var(--section-padding-x);
+    padding-bottom: calc(var(--section-padding-y) + env(safe-area-inset-bottom));
   }
 
   .footer__container {
@@ -136,6 +137,7 @@ const currentYear = new Date().getFullYear();
   @media (max-width: 768px) {
     .footer {
       padding: 3rem 1rem;
+      padding-bottom: calc(3rem + env(safe-area-inset-bottom));
     }
 
     .footer__links {

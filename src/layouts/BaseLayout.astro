@@ -53,8 +53,12 @@ const canonicalUrl = Astro.site
 
     <title>{title}</title>
 
-    <!-- Theme color for mobile browsers -->
-    <meta name="theme-color" content="#0f0f1e" />
+    <!-- Color scheme declaration for dark mode browsers -->
+    <meta name="color-scheme" content="dark" />
+
+    <!-- Theme color for mobile browsers (both light and dark system modes) -->
+    <meta name="theme-color" content="#0f0f1e" media="(prefers-color-scheme: dark)" />
+    <meta name="theme-color" content="#0f0f1e" media="(prefers-color-scheme: light)" />
   </head>
   <body>
     <a href="#main-content" class="skip-link">Skip to main content</a>
