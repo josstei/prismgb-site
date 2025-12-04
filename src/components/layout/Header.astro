@@ -492,79 +492,76 @@ const getExternalIcon = (label: string) => externalIconMap[label.toLowerCase()] 
 </style>
 
 <script>
-  const toggle = document.getElementById('mobileToggle') as HTMLButtonElement | null;
-  const wrapper = document.getElementById('mobileNavWrapper');
-  const overlay = document.getElementById('mobileNavOverlay');
-  const closeBtn = document.getElementById('mobileNavClose');
-  const nav = document.getElementById('mobileNav');
+  function initMobileNav() {
+    const toggle = document.getElementById('mobileToggle') as HTMLButtonElement | null;
+    const wrapper = document.getElementById('mobileNavWrapper');
+    const overlay = document.getElementById('mobileNavOverlay');
+    const closeBtn = document.getElementById('mobileNavClose');
+    const nav = document.getElementById('mobileNav');
 
-  function openMenu() {
-    toggle?.setAttribute('aria-expanded', 'true');
-    wrapper?.classList.add('is-open');
-    wrapper?.setAttribute('aria-hidden', 'false');
-    document.body.style.overflow = 'hidden';
-    // Focus the close button for accessibility
-    closeBtn?.focus();
-  }
+    if (!toggle || !wrapper) return;
 
-  function closeMenu() {
-    toggle?.setAttribute('aria-expanded', 'false');
-    wrapper?.classList.remove('is-open');
-    wrapper?.setAttribute('aria-hidden', 'true');
-    document.body.style.overflow = '';
-    // Return focus to toggle
-    toggle?.focus();
-  }
-
-  function handleToggle(e: Event) {
-    e.preventDefault();
-    e.stopPropagation();
-    const isOpen = toggle?.getAttribute('aria-expanded') === 'true';
-    if (isOpen) {
-      closeMenu();
-    } else {
-      openMenu();
+    function openMenu() {
+      toggle?.setAttribute('aria-expanded', 'true');
+      wrapper?.classList.add('is-open');
+      wrapper?.setAttribute('aria-hidden', 'false');
+      document.body.style.overflow = 'hidden';
+      closeBtn?.focus();
     }
-  }
 
-  function handleClose(e: Event) {
-    e.preventDefault();
-    e.stopPropagation();
-    closeMenu();
-  }
+    function closeMenu() {
+      toggle?.setAttribute('aria-expanded', 'false');
+      wrapper?.classList.remove('is-open');
+      wrapper?.setAttribute('aria-hidden', 'true');
+      document.body.style.overflow = '';
+      toggle?.focus();
+    }
 
-  // Unified event handler for touch/mouse - iOS Safari needs pointerup, not click
-  function addTapHandler(element: HTMLElement | null, handler: (e: Event) => void) {
-    if (!element) return;
-
-    // pointerup works reliably across Safari, iOS Safari, Chrome, Firefox
-    element.addEventListener('pointerup', handler);
-
-    // Prevent click from firing after pointerup (ghost click prevention)
-    element.addEventListener('click', (e) => {
+    function handleToggle(e: Event) {
       e.preventDefault();
       e.stopPropagation();
+      const isOpen = toggle?.getAttribute('aria-expanded') === 'true';
+      if (isOpen) {
+        closeMenu();
+      } else {
+        openMenu();
+      }
+    }
+
+    function handleClose(e: Event) {
+      e.preventDefault();
+      e.stopPropagation();
+      closeMenu();
+    }
+
+    function addTapHandler(element: HTMLElement | null, handler: (e: Event) => void) {
+      if (!element) return;
+      element.addEventListener('pointerup', handler);
+      element.addEventListener('click', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+      });
+    }
+
+    addTapHandler(toggle, handleToggle);
+    addTapHandler(closeBtn, handleClose);
+    addTapHandler(overlay, handleClose);
+
+    nav?.querySelectorAll('a').forEach(link => {
+      link.addEventListener('click', closeMenu);
+    });
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && wrapper?.classList.contains('is-open')) {
+        closeMenu();
+      }
     });
   }
 
-  // Toggle button
-  addTapHandler(toggle, handleToggle);
-
-  // Close button
-  addTapHandler(closeBtn, handleClose);
-
-  // Overlay
-  addTapHandler(overlay, handleClose);
-
-  // Link clicks - these work fine with regular click
-  nav?.querySelectorAll('a').forEach(link => {
-    link.addEventListener('click', closeMenu);
-  });
-
-  // Escape key
-  document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape' && wrapper?.classList.contains('is-open')) {
-      closeMenu();
-    }
-  });
+  // Run when DOM is ready
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initMobileNav);
+  } else {
+    initMobileNav();
+  }
 </script>
