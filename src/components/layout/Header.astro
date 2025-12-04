@@ -22,8 +22,8 @@ const downloadHref =
 const githubLink = externalLinks.find((item) => item.label.toLowerCase() === 'github');
 
 const navIconMap: Record<string, string> = {
-  'features': 'gem',
-  'get started': 'cartridge',
+  'features': 'sparkles',
+  'get started': 'rocket',
   'download': 'download',
 };
 const getNavIcon = (label: string) => navIconMap[label.toLowerCase()] || 'arrow-right';
@@ -113,6 +113,16 @@ const getExternalIcon = (label: string) => externalIconMap[label.toLowerCase()] 
           </div>
         </>
       )}
+    </div>
+
+    <div class="mobile-nav__footer">
+      <p class="mobile-nav__footer-text">
+        A companion app for the
+      </p>
+      <a href="https://modretro.com" target="_blank" rel="noopener noreferrer" class="mobile-nav__footer-link">
+        <Icon name="chromatic" size={16} />
+        <span>Mod Retro Chromatic</span>
+      </a>
     </div>
   </nav>
 </div>
@@ -346,10 +356,22 @@ const getExternalIcon = (label: string) => externalIconMap[label.toLowerCase()] 
     touch-action: manipulation;
   }
 
+  .mobile-nav__close {
+    color: var(--accent-light);
+  }
+
+  .mobile-nav__close :global(.icon) {
+    color: var(--accent-light);
+  }
+
   .mobile-nav__close:hover {
     background: var(--accent-10);
     border-color: var(--accent-30);
-    color: var(--text-white);
+    color: var(--accent-bright);
+  }
+
+  .mobile-nav__close:hover :global(.icon) {
+    color: var(--accent-bright);
   }
 
   .mobile-nav__content {
@@ -389,10 +411,56 @@ const getExternalIcon = (label: string) => externalIconMap[label.toLowerCase()] 
     color: var(--text-muted);
   }
 
+  /* Purple accent for inline SVG icons */
+  .mobile-nav__link > :global(svg.icon) {
+    color: var(--accent-light);
+  }
+
+  .mobile-nav__link:hover > :global(svg.icon),
+  .mobile-nav__link:focus > :global(svg.icon) {
+    color: var(--accent-bright);
+  }
+
   .mobile-nav__divider {
     height: 1px;
     background: var(--accent-15);
     margin: 0.75rem 0;
+  }
+
+  .mobile-nav__footer {
+    margin-top: auto;
+    padding: 1rem 1.25rem;
+    border-top: 1px solid var(--accent-15);
+    text-align: center;
+  }
+
+  .mobile-nav__footer-text {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    margin-bottom: 0.5rem;
+  }
+
+  .mobile-nav__footer-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.8125rem;
+    font-weight: 500;
+    color: var(--accent-light);
+    text-decoration: none;
+    transition: color var(--transition-fast);
+  }
+
+  .mobile-nav__footer-link:hover {
+    color: var(--accent-bright);
+  }
+
+  .mobile-nav__footer-link :global(.icon) {
+    color: var(--accent-light);
+  }
+
+  .mobile-nav__footer-link:hover :global(.icon) {
+    color: var(--accent-bright);
   }
 
   /* ===== Responsive ===== */
@@ -450,6 +518,7 @@ const getExternalIcon = (label: string) => externalIconMap[label.toLowerCase()] 
 
   function handleToggle(e: Event) {
     e.preventDefault();
+    e.stopPropagation();
     const isOpen = toggle?.getAttribute('aria-expanded') === 'true';
     if (isOpen) {
       closeMenu();
@@ -460,19 +529,34 @@ const getExternalIcon = (label: string) => externalIconMap[label.toLowerCase()] 
 
   function handleClose(e: Event) {
     e.preventDefault();
+    e.stopPropagation();
     closeMenu();
   }
 
-  // Toggle button - use both click and touchend for iOS Safari
-  toggle?.addEventListener('click', handleToggle);
+  // Unified event handler for touch/mouse - iOS Safari needs pointerup, not click
+  function addTapHandler(element: HTMLElement | null, handler: (e: Event) => void) {
+    if (!element) return;
+
+    // pointerup works reliably across Safari, iOS Safari, Chrome, Firefox
+    element.addEventListener('pointerup', handler);
+
+    // Prevent click from firing after pointerup (ghost click prevention)
+    element.addEventListener('click', (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+    });
+  }
+
+  // Toggle button
+  addTapHandler(toggle, handleToggle);
 
   // Close button
-  closeBtn?.addEventListener('click', handleClose);
+  addTapHandler(closeBtn, handleClose);
 
-  // Overlay - add both click and touchend for iOS Safari
-  overlay?.addEventListener('click', handleClose);
+  // Overlay
+  addTapHandler(overlay, handleClose);
 
-  // Link clicks
+  // Link clicks - these work fine with regular click
   nav?.querySelectorAll('a').forEach(link => {
     link.addEventListener('click', closeMenu);
   });
