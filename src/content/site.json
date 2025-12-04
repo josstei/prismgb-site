@@ -42,7 +42,7 @@
         "name": "windows",
         "icon": "windows",
         "label": "Windows",
-        "filename": "PrismGB-Setup.exe"
+        "filename": "PrismGB.exe"
       },
       {
         "name": "macos",
