@@ -39,22 +39,29 @@
 
     function addPressListener(el, handler) {
       if (!el) return;
-      var touchTriggered = false;
+      var touchHandled = false;
 
-      function wrapped(e) {
-        // Avoid duplicate fire from touchend + click
-        if (e.type === 'click' && touchTriggered) {
-          touchTriggered = false;
-          return;
-        }
-        if (e.type === 'touchend') {
-          touchTriggered = true;
-        }
-        handler();
-      }
+      el.addEventListener('touchstart', function(e) {
+        // Mark that touch started - we'll handle this interaction via touch
+        touchHandled = true;
+      }, { passive: true });
 
-      el.addEventListener('click', wrapped);
-      el.addEventListener('touchend', wrapped, { passive: true });
+      el.addEventListener('touchend', function(e) {
+        if (touchHandled) {
+          // Prevent the subsequent click event from firing
+          e.preventDefault();
+          touchHandled = false;
+          handler();
+        }
+      }, { passive: false });
+
+      el.addEventListener('click', function(e) {
+        // Only handle click if it wasn't already handled by touch
+        if (!touchHandled) {
+          handler();
+        }
+        touchHandled = false;
+      });
     }
 
     addPressListener(toggle, handleToggle);
