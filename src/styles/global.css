@@ -138,6 +138,9 @@
 
 html {
   scroll-behavior: smooth;
+  background: var(--bg-gradient);
+  color: var(--text-primary);
+  min-height: 100%;
 }
 
 body {
@@ -146,17 +149,16 @@ body {
   color: var(--text-primary);
   line-height: 1.6;
   min-height: 100vh;
+  min-height: 100dvh;
   overflow-x: hidden;
+  padding: 0;
 }
 
 /* Background Pattern (subtle grid) */
 body::before {
   content: '';
   position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
+  inset: 0;
   background:
     repeating-linear-gradient(
       90deg,
@@ -174,6 +176,40 @@ body::before {
     );
   pointer-events: none;
   z-index: 0;
+}
+
+/* Subtle prismatic sheen */
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background: conic-gradient(
+    from 120deg,
+    rgba(255, 0, 128, 0.04),
+    rgba(255, 128, 0, 0.04),
+    rgba(255, 255, 0, 0.04),
+    rgba(0, 255, 128, 0.04),
+    rgba(0, 170, 255, 0.04),
+    rgba(128, 0, 255, 0.04),
+    rgba(255, 0, 128, 0.04)
+  );
+  mix-blend-mode: screen;
+  filter: blur(60px);
+  opacity: 0.35;
+  pointer-events: none;
+  z-index: 0;
+  animation: prismatic-sheen 22s linear infinite;
+}
+
+@keyframes prismatic-sheen {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  body::after {
+    animation: none;
+  }
 }
 
 /* Typography */
@@ -257,22 +293,23 @@ a:hover {
 
 /* Skip to main content link for keyboard navigation */
 .skip-link {
-  position: absolute;
-  top: -50px;
+  position: fixed;
+  top: 1rem;
+  top: calc(env(safe-area-inset-top) + 1rem);
   left: 50%;
-  transform: translateX(-50%);
+  transform: translate(-50%, -160%);
   padding: 0.75rem 1.5rem;
   background: var(--accent-bright);
   color: var(--text-white);
   font-weight: 600;
   border-radius: var(--radius-sm);
   z-index: 1000;
-  transition: top var(--transition-fast);
+  transition: transform var(--transition-fast);
   text-decoration: none;
 }
 
-.skip-link:focus {
-  top: 1rem;
+.skip-link:focus-visible {
+  transform: translate(-50%, 0);
   outline: 2px solid var(--text-white);
   outline-offset: 2px;
 }
