@@ -1,62 +1,90 @@
 {
   "site": {
     "title": "PrismGB",
-    "tagline": "A desktop companion for your Mod Retro Chromatic",
-    "description": "Stream, capture, and record gameplay from your Chromatic device. Experience your retro games on the big screen with pixel-perfect clarity."
+    "tagline": "Play your Chromatic on any screen",
+    "description": "Plug in your Chromatic and watch, stream, or save your games right from your computer. Crisp video, smooth controls, and an easy setup."
   },
   "navigation": [
     { "label": "Features", "href": "#features" },
     { "label": "Get Started", "href": "#get-started" },
     { "label": "Download", "href": "#download" },
-    { "label": "GitHub", "href": "https://github.com", "external": true },
+    { "label": "FAQ", "href": "#faq" },
+    { "label": "GitHub", "href": "https://github.com/josstei/prismgb-app", "external": true },
     { "label": "Ko-fi", "href": "https://ko-fi.com/josstei", "external": true }
   ],
-  "features": [
-    {
-      "icon": "video",
-      "title": "Live Streaming",
-      "description": "Stream your Chromatic gameplay directly to your desktop with ultra-low latency. Perfect for capturing those retro gaming moments."
-    },
-    {
-      "icon": "camera",
-      "title": "Screenshots",
-      "description": "Capture pixel-perfect screenshots with a single click. Save your favorite gaming moments in crisp, original resolution."
-    },
-    {
-      "icon": "record",
-      "title": "Recording",
-      "description": "Record gameplay sessions to share with friends or create content. Supports multiple output formats."
-    },
-    {
-      "icon": "desktop",
-      "title": "Cross-Platform",
-      "description": "Works on Windows, macOS, and Linux. Use your preferred operating system without compromise."
-    }
-  ],
+  "features": {
+    "primary": [
+      {
+        "icon": "video",
+        "title": "Live Streaming",
+        "tagline": "Play on your computer with almost no delay",
+        "detail": "Stream straight from your Chromatic so everything still feels instant."
+      },
+      {
+        "icon": "camera",
+        "title": "Screenshots",
+        "tagline": "One-click captures at full quality",
+        "detail": "Save your favorite gaming moments instantly with a single click."
+      },
+      {
+        "icon": "record",
+        "title": "Recording",
+        "tagline": "Capture full gameplay sessions",
+        "detail": "Record your adventures in clean, ready-to-share videos."
+      },
+      {
+        "icon": "desktop",
+        "title": "Cross-Platform",
+        "tagline": "Works on the computer you already have",
+        "detail": "Windows, macOS, and Linux downloads with handy tray controls and automatic updates."
+      }
+    ],
+    "secondary": [
+      {
+        "icon": "palette",
+        "title": "5 Visual Styles",
+        "description": "True Color, Vibrant, Hi-Def, Vintage CRT, Pixel LCD"
+      },
+      {
+        "icon": "sliders",
+        "title": "Display Controls",
+        "description": "Volume, brightness, and a cinema mode for lights-out sessions"
+      },
+      {
+        "icon": "gpu",
+        "title": "Smooth Performance",
+        "description": "Fast, stutter-free play on laptops and desktops alike"
+      }
+    ]
+  },
   "download": {
-    "version": "1.0.0",
-    "githubUrl": "https://github.com",
+    "version": "1.1.3",
+    "githubUrl": "https://github.com/josstei/prismgb-app",
+    "releasesUrl": "https://github.com/josstei/prismgb-app/releases",
     "kofiUsername": "josstei",
     "platforms": [
       {
         "name": "windows",
         "icon": "windows",
         "label": "Windows",
-        "filename": "PrismGB.exe"
+        "filename": "PrismGB-Setup-1.1.3.exe",
+        "downloadUrl": "https://github.com/josstei/prismgb-app/releases/download/v1.1.3/PrismGB-Setup-1.1.3.exe"
       },
       {
         "name": "macos",
         "icon": "apple",
         "label": "macOS",
-        "filename": "PrismGB.dmg"
+        "filename": "PrismGB-1.1.3-mac.dmg",
+        "downloadUrl": "https://github.com/josstei/prismgb-app/releases/download/v1.1.3/PrismGB-1.1.3-mac.dmg"
       },
       {
         "name": "linux",
         "icon": "linux-download",
         "label": "Linux",
-      "filename": "PrismGB.AppImage"
-    }
-  ]
+        "filename": "PrismGB-1.1.3-x86_64.AppImage",
+        "downloadUrl": "https://github.com/josstei/prismgb-app/releases/download/v1.1.3/PrismGB-1.1.3-x86_64.AppImage"
+      }
+    ]
   },
   "gettingStarted": [
     {
@@ -78,6 +106,67 @@
       "description": "Start gaming on the big screen"
     }
   ],
+  "faq": {
+    "title": "Frequently Asked Questions",
+    "subtitle": "Find answers to common questions about PrismGB",
+    "categories": [
+      {
+        "name": "Getting Started",
+        "icon": "rocket",
+        "questions": [
+          {
+            "question": "What devices are supported?",
+            "answer": "PrismGB is designed exclusively for the Mod Retro Chromatic handheld gaming device. Other devices are not currently supported."
+          },
+          {
+            "question": "Do I need to install drivers?",
+            "answer": "Windows and macOS work out of the box. On Linux you may need one quick USB package - see the <a href=\"https://github.com/josstei/prismgb-app\" target=\"_blank\" rel=\"noopener noreferrer\">GitHub page</a> for the short setup steps."
+          },
+          {
+            "question": "What are the system requirements?",
+            "answer": "Works on Windows 10+, macOS 10.15+, or modern Linux (Ubuntu 18.04+, Fedora, Arch) with a USB port for your Chromatic."
+          }
+        ]
+      },
+      {
+        "name": "Features",
+        "icon": "sparkles",
+        "questions": [
+          {
+            "question": "What are the render presets?",
+            "answer": "Pick from five looks: True Color (original GBC feel), Vibrant (brighter), Hi-Def (sharper edges), Vintage (CRT-style scanlines), and Pixel (LCD grid overlay)."
+          },
+          {
+            "question": "Where are my screenshots and recordings saved?",
+            "answer": "Captures save to your regular Videos or Pictures folder with clear timestamps so you can find them later."
+          }
+        ]
+      },
+      {
+        "name": "Troubleshooting",
+        "icon": "tool",
+        "questions": [
+          {
+            "question": "My Chromatic isn't detected. What should I do?",
+            "answer": "Make sure your Chromatic is powered on, then try a different USB port or cable. If it still doesn't show up, restart PrismGB and plug it back in."
+          },
+          {
+            "question": "The video stream is laggy or choppy. How can I fix it?",
+            "answer": "Switch to a lighter visual style in settings. If it still feels off, restart the app or reconnect your Chromatic."
+          },
+          {
+            "question": "Recording fails or produces no output. What's wrong?",
+            "answer": "Check that you have enough disk space. Close other apps that might be using your camera or microphone, then try again."
+          }
+        ]
+      }
+    ]
+  },
+  "support": {
+    "email": "support@prismgb.com",
+    "github": "https://github.com/josstei/prismgb-app/issues",
+    "kofi": "https://ko-fi.com/josstei"
+  },
   "disclaimer": {
     "modretroUrl": "https://modretro.com"
   }

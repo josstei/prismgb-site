@@ -105,7 +105,16 @@ const getExternalIcon = (label: string) => externalIconMap[label.toLowerCase()] 
           <div class="mobile-nav__divider"></div>
           <div class="mobile-nav__section">
             {externalLinks.map((item) => (
-              <a href={item.href} target="_blank" rel="noopener noreferrer" class="mobile-nav__link mobile-nav__link--external">
+              <a
+                href={item.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                class:list={[
+                  'mobile-nav__link',
+                  'mobile-nav__link--external',
+                  item.label.toLowerCase() === 'ko-fi' && 'mobile-nav__link--kofi',
+                ]}
+              >
                 <Icon name={getExternalIcon(item.label)} size={20} />
                 <span>{item.label}</span>
               </a>
@@ -409,6 +418,21 @@ const getExternalIcon = (label: string) => externalIconMap[label.toLowerCase()] 
 
   .mobile-nav__link--external {
     color: var(--text-muted);
+  }
+
+  .mobile-nav__link--kofi {
+    background: linear-gradient(135deg, var(--accent-15), var(--accent-08));
+    border: 1px solid var(--accent-30);
+    color: var(--text-white);
+    justify-content: center;
+    gap: 0.5rem;
+  }
+
+  .mobile-nav__link--kofi:hover,
+  .mobile-nav__link--kofi:focus {
+    background: var(--accent-20);
+    border-color: var(--accent-40);
+    color: var(--text-white);
   }
 
   /* Purple accent for inline SVG icons */

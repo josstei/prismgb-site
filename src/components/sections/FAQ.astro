@@ -1,0 +1,363 @@
+---
+import Section from '../common/Section.astro';
+import Icon from '../common/Icon.astro';
+
+interface Question {
+  question: string;
+  answer: string;
+}
+
+interface Category {
+  name: string;
+  icon: string;
+  questions: Question[];
+}
+
+interface FAQData {
+  title: string;
+  subtitle: string;
+  categories: Category[];
+}
+
+interface SupportData {
+  email: string;
+  github: string;
+  kofi: string;
+}
+
+interface Props {
+  faq: FAQData;
+  support?: SupportData;
+}
+
+const { faq, support } = Astro.props;
+---
+
+<Section id="faq" variant="gradient" class="faq">
+  <div class="faq__header">
+    <h2 class="faq__title">{faq.title}</h2>
+    <p class="faq__subtitle">{faq.subtitle}</p>
+  </div>
+
+  <div class="faq__container">
+    {faq.categories.map((category, categoryIndex) => (
+      <div class="faq__category" style={`--category-delay: ${categoryIndex * 150}ms`}>
+        <div class="faq__category-header">
+          <div class="faq__category-icon">
+            <Icon name={category.icon} size={20} />
+          </div>
+          <h3 class="faq__category-name">{category.name}</h3>
+        </div>
+
+        <div class="faq__questions">
+          {category.questions.map((item, questionIndex) => (
+            <details class="faq__item" style={`--question-delay: ${(categoryIndex * 150) + (questionIndex * 50)}ms`}>
+              <summary class="faq__question">
+                <span class="faq__question-text">{item.question}</span>
+                <span class="faq__chevron">
+                  <Icon name="chevron-down" size={18} />
+                </span>
+              </summary>
+              <div class="faq__answer">
+                <p set:html={item.answer} />
+              </div>
+            </details>
+          ))}
+        </div>
+      </div>
+    ))}
+  </div>
+
+  {support && (
+    <div class="faq__support">
+      <div class="faq__support-content">
+        <Icon name="help-circle" size={24} class="faq__support-icon" />
+        <div class="faq__support-text">
+          <p class="faq__support-title">Still have questions?</p>
+          <p class="faq__support-description">
+            We're here to help. Reach out via email or open an issue on GitHub.
+          </p>
+        </div>
+      </div>
+      <div class="faq__support-links">
+        <a href={`mailto:${support.email}`} class="faq__support-link faq__support-link--email">
+          <Icon name="mail" size={16} />
+          {support.email}
+        </a>
+        <a href={support.github} target="_blank" rel="noopener noreferrer" class="faq__support-link">
+          <Icon name="github" size={16} />
+          GitHub Issues
+          <Icon name="external-link" size={12} />
+        </a>
+      </div>
+    </div>
+  )}
+</Section>
+
+<style>
+  .faq__header {
+    text-align: center;
+    margin-bottom: 3rem;
+  }
+
+  .faq__title {
+    font-size: clamp(2rem, 4vw, 2.5rem);
+    margin-bottom: 1rem;
+  }
+
+  .faq__subtitle {
+    font-size: 1.125rem;
+    color: var(--text-secondary);
+    max-width: 500px;
+    margin: 0 auto;
+  }
+
+  .faq__container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 2rem;
+    max-width: 1000px;
+    margin: 0 auto;
+  }
+
+  .faq__category {
+    animation: fadeInUp 0.6s ease forwards;
+    animation-delay: var(--category-delay);
+    opacity: 0;
+  }
+
+  .faq__category-header {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 1px solid var(--accent-20);
+  }
+
+  .faq__category-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    background: linear-gradient(135deg, var(--accent-20) 0%, var(--accent-10) 100%);
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--accent-30);
+    color: var(--accent-bright);
+  }
+
+  .faq__category-name {
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: var(--text-white);
+    margin: 0;
+  }
+
+  .faq__questions {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .faq__item {
+    background: var(--surface-panel);
+    border: 1px solid var(--accent-15);
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+  }
+
+  .faq__item:hover {
+    border-color: var(--accent-30);
+  }
+
+  .faq__item[open] {
+    border-color: var(--accent-40);
+    box-shadow: 0 4px 20px var(--accent-10);
+  }
+
+  .faq__question {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 1rem 1.25rem;
+    cursor: pointer;
+    list-style: none;
+    user-select: none;
+    transition: background-color var(--transition-fast);
+  }
+
+  .faq__question::-webkit-details-marker {
+    display: none;
+  }
+
+  .faq__question:hover {
+    background-color: var(--accent-05);
+  }
+
+  .faq__question-text {
+    font-size: 0.9375rem;
+    font-weight: 500;
+    color: var(--text-white);
+    line-height: 1.4;
+  }
+
+  .faq__chevron {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    width: 24px;
+    height: 24px;
+    color: var(--accent-bright);
+    transition: transform var(--transition-fast);
+  }
+
+  .faq__item[open] .faq__chevron {
+    transform: rotate(180deg);
+  }
+
+  .faq__answer {
+    padding: 0 1.25rem 1.25rem;
+    animation: slideDown 0.2s ease-out;
+  }
+
+  .faq__answer p {
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+    line-height: 1.7;
+    margin: 0;
+  }
+
+  .faq__answer a {
+    color: var(--accent-bright);
+    text-decoration: none;
+    transition: color var(--transition-fast);
+  }
+
+  .faq__answer a:hover {
+    color: var(--accent-light);
+    text-decoration: underline;
+  }
+
+  @keyframes slideDown {
+    from {
+      opacity: 0;
+      transform: translateY(-8px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  /* Support section */
+  .faq__support {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5rem;
+    margin-top: 4rem;
+    padding: 2rem;
+    background: var(--surface-strong);
+    border: 1px solid var(--accent-30);
+    border-radius: var(--radius-lg);
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+  }
+
+  .faq__support-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .faq__support-icon {
+    color: var(--accent-bright);
+  }
+
+  .faq__support-text {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+
+  .faq__support-title {
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: var(--text-white);
+    margin: 0;
+  }
+
+  .faq__support-description {
+    font-size: 0.9375rem;
+    color: var(--text-secondary);
+    margin: 0;
+  }
+
+  .faq__support-links {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1rem;
+  }
+
+  .faq__support-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.625rem 1rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--text-secondary);
+    text-decoration: none;
+    background: var(--surface-panel);
+    border: 1px solid var(--accent-20);
+    border-radius: var(--radius-sm);
+    transition: all var(--transition-fast);
+  }
+
+  .faq__support-link:hover {
+    color: var(--text-white);
+    border-color: var(--accent-40);
+    background: var(--accent-10);
+  }
+
+  .faq__support-link--email {
+    color: var(--accent-bright);
+    border-color: var(--accent-30);
+  }
+
+  .faq__support-link--email:hover {
+    color: var(--text-white);
+    background: var(--accent-20);
+    border-color: var(--accent-50);
+  }
+
+  @media (max-width: 768px) {
+    .faq__container {
+      grid-template-columns: 1fr;
+      gap: 2.5rem;
+    }
+
+    .faq__support {
+      padding: 1.5rem;
+      margin-top: 3rem;
+    }
+
+    .faq__support-links {
+      flex-direction: column;
+      width: 100%;
+    }
+
+    .faq__support-link {
+      justify-content: center;
+      width: 100%;
+    }
+  }
+</style>

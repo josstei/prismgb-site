@@ -17,14 +17,12 @@ interface Props {
   version?: string;
   githubUrl?: string;
   platforms?: Platform[];
-  kofiUsername?: string;
 }
 
 const {
   version = '',
   githubUrl = '#',
   platforms = [],
-  kofiUsername = '',
 } = Astro.props;
 ---
 
@@ -45,13 +43,25 @@ const {
             <h3 class="download__platform-name">{platform.label}</h3>
             <span class="download__filename">{platform.filename || '\u00A0'}</span>
           </div>
-          <Button
-            variant="primary"
-            class="download__button"
-            type="button"
-          >
-            Coming Soon!
-          </Button>
+          {platform.downloadUrl ? (
+            <Button
+              href={platform.downloadUrl}
+              variant="primary"
+              class="download__button"
+            >
+              <Icon name="download" size={16} />
+              Download
+            </Button>
+          ) : (
+            <Button
+              variant="primary"
+              class="download__button"
+              type="button"
+              disabled
+            >
+              Coming Soon
+            </Button>
+          )}
         </div>
       </Card>
     ))}
@@ -66,19 +76,6 @@ const {
       View on GitHub
       <Icon name="external-link" size={14} />
     </a>
-    {kofiUsername && (
-      <div class="download__support">
-        <a
-          href={`https://ko-fi.com/${kofiUsername}`}
-          target="_blank"
-          rel="noopener noreferrer"
-          class="download__kofi"
-        >
-          <Icon name="heart" size={14} />
-          Support on Ko-fi
-        </a>
-      </div>
-    )}
   </div>
 </Section>
 
@@ -196,34 +193,6 @@ const {
 
   .download__github:hover {
     color: var(--text-white);
-  }
-
-  .download__support {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    padding-top: 1rem;
-    border-top: 1px solid rgba(255, 255, 255, 0.05);
-    margin-top: 0.5rem;
-  }
-
-  .download__kofi {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.375rem;
-    color: var(--accent-bright);
-    text-decoration: none;
-    font-size: 0.875rem;
-    font-weight: 500;
-    transition: color var(--transition-fast);
-  }
-
-  .download__kofi:hover {
-    color: var(--kofi);
-  }
-
-  .download__kofi :global(.icon) {
-    color: var(--kofi);
   }
 
   @media (max-width: 768px) {

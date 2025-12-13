@@ -3,17 +3,25 @@ import Section from '../common/Section.astro';
 import Card from '../common/Card.astro';
 import Icon from '../common/Icon.astro';
 
-interface Feature {
+interface PrimaryFeature {
+  icon: string;
+  title: string;
+  tagline: string;
+  detail: string;
+}
+
+interface SecondaryFeature {
   icon: string;
   title: string;
   description: string;
 }
 
 interface Props {
-  features?: Feature[];
+  primary?: PrimaryFeature[];
+  secondary?: SecondaryFeature[];
 }
 
-const { features = [] } = Astro.props;
+const { primary = [], secondary = [] } = Astro.props;
 ---
 
 <Section id="features" variant="gradient" class="features">
@@ -25,16 +33,35 @@ const { features = [] } = Astro.props;
   </div>
 
   <div class="features__grid">
-    {features.map((feature, index) => (
+    {primary.map((feature, index) => (
       <Card variant="feature" glow class="features__card" style={`--delay: ${index * 100}ms`}>
         <div class="features__icon-wrapper" slot="icon">
           <Icon name={feature.icon} size={32} class="features__icon" />
         </div>
         <h3 class="features__card-title">{feature.title}</h3>
-        <p class="features__card-description">{feature.description}</p>
+        <div class="features__card-content">
+          <p class="features__card-tagline">{feature.tagline}</p>
+          <p class="features__card-detail">{feature.detail}</p>
+        </div>
       </Card>
     ))}
   </div>
+
+  {secondary.length > 0 && (
+    <div class="features__secondary">
+      {secondary.map((feature, index) => (
+        <div class="features__secondary-item" style={`--delay: ${400 + index * 75}ms`}>
+          <div class="features__secondary-icon">
+            <Icon name={feature.icon} size={20} />
+          </div>
+          <div class="features__secondary-content">
+            <span class="features__secondary-title">{feature.title}</span>
+            <span class="features__secondary-description">{feature.description}</span>
+          </div>
+        </div>
+      ))}
+    </div>
+  )}
 </Section>
 
 <style>
@@ -93,17 +120,110 @@ const { features = [] } = Astro.props;
     color: var(--text-white);
   }
 
-  .features__card-description {
+  .features__card-content {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .features__card-tagline {
     font-size: 0.9375rem;
-    color: var(--text-secondary);
-    line-height: 1.6;
+    font-weight: 500;
+    color: var(--text-white);
+    line-height: 1.4;
     margin: 0;
+  }
+
+  .features__card-detail {
+    font-size: 0.875rem;
+    color: var(--text-muted);
+    line-height: 1.5;
+    margin: 0;
+  }
+
+  /* Secondary features - compact row */
+  .features__secondary {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1rem;
+    margin-top: 2.5rem;
+    padding-top: 2.5rem;
+    border-top: 1px solid var(--accent-15);
+  }
+
+  .features__secondary-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+    padding: 1rem;
+    background: var(--surface-soft);
+    border: 1px solid var(--accent-10);
+    border-radius: var(--radius-md);
+    animation: fadeInUp 0.5s ease forwards;
+    animation-delay: var(--delay);
+    opacity: 0;
+    transition: border-color var(--transition-fast), background var(--transition-fast);
+  }
+
+  .features__secondary-item:hover {
+    border-color: var(--accent-25);
+    background: var(--accent-05);
+  }
+
+  .features__secondary-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    flex-shrink: 0;
+    background: linear-gradient(135deg, var(--accent-15) 0%, var(--accent-08) 100%);
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--accent-20);
+    color: var(--accent-bright);
+  }
+
+  .features__secondary-content {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    min-width: 0;
+  }
+
+  .features__secondary-title {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--text-white);
+    line-height: 1.3;
+  }
+
+  .features__secondary-description {
+    font-size: 0.8125rem;
+    color: var(--text-muted);
+    line-height: 1.4;
+  }
+
+  @media (max-width: 900px) {
+    .features__secondary {
+      grid-template-columns: repeat(2, 1fr);
+    }
   }
 
   @media (max-width: 768px) {
     .features__grid {
       grid-template-columns: repeat(2, minmax(0, 1fr));
       gap: 1rem;
+    }
+
+    .features__secondary {
+      grid-template-columns: 1fr;
+      gap: 0.75rem;
+      margin-top: 2rem;
+      padding-top: 2rem;
+    }
+
+    .features__secondary-item {
+      padding: 0.875rem;
     }
   }
 </style>
