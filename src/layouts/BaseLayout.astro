@@ -53,8 +53,8 @@ const canonicalUrl = Astro.site
 
     <title>{title}</title>
 
-    <!-- Color scheme declaration for dark mode browsers -->
-    <meta name="color-scheme" content="dark" />
+    <!-- Color scheme declaration for browsers -->
+    <meta name="color-scheme" content="light dark" />
 
     <!-- iOS Safari status bar style -->
     <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -76,15 +76,6 @@ const canonicalUrl = Astro.site
       <Footer />
     </slot>
 
-    <script is:inline src="https://storage.ko-fi.com/cdn/scripts/overlay-widget.js"></script>
-    <script is:inline>
-      kofiWidgetOverlay.draw('josstei', {
-        'type': 'floating-chat',
-        'floating-chat.donateButton.text': 'Donate',
-        'floating-chat.donateButton.background-color': '#ff5f5f',
-        'floating-chat.donateButton.text-color': '#fff'
-      });
-    </script>
   </body>
 </html>
 

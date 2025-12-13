@@ -101,9 +101,9 @@
     },
     {
       "number": 3,
-      "image": "/icons/cartridge.svg",
-      "title": "Click the Cartridge",
-      "description": "Start gaming on the big screen"
+      "image": "/icons/gem.svg",
+      "title": "Click the Gem",
+      "description": "Tap the Gem icon to start gaming on the big screen"
     }
   ],
   "faq": {
