@@ -30,7 +30,6 @@ const getNavIcon = (label: string) => navIconMap[label.toLowerCase()] || 'arrow-
 
 const externalIconMap: Record<string, string> = {
   'github': 'github',
-  'ko-fi': 'kofi',
 };
 const getExternalIcon = (label: string) => externalIconMap[label.toLowerCase()] || 'external-link';
 ---
@@ -100,25 +99,26 @@ const getExternalIcon = (label: string) => externalIconMap[label.toLowerCase()] 
         ))}
       </div>
 
-      {externalLinks.length > 0 && (
+      {externalLinks.filter((item) => item.label.toLowerCase() !== 'ko-fi').length > 0 && (
         <>
           <div class="mobile-nav__divider"></div>
           <div class="mobile-nav__section">
-            {externalLinks.map((item) => (
-              <a
-                href={item.href}
-                target="_blank"
-                rel="noopener noreferrer"
-                class:list={[
-                  'mobile-nav__link',
-                  'mobile-nav__link--external',
-                  item.label.toLowerCase() === 'ko-fi' && 'mobile-nav__link--kofi',
-                ]}
-              >
-                <Icon name={getExternalIcon(item.label)} size={20} />
-                <span>{item.label}</span>
-              </a>
-            ))}
+            {externalLinks
+              .filter((item) => item.label.toLowerCase() !== 'ko-fi')
+              .map((item) => (
+                <a
+                  href={item.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class:list={[
+                    'mobile-nav__link',
+                    'mobile-nav__link--external',
+                  ]}
+                >
+                  <Icon name={getExternalIcon(item.label)} size={20} />
+                  <span>{item.label}</span>
+                </a>
+              ))}
           </div>
         </>
       )}

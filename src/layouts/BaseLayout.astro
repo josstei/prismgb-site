@@ -30,7 +30,7 @@ const canonicalUrl = Astro.site
     />
     <meta
       http-equiv="Content-Security-Policy"
-      content="default-src 'self'; script-src 'self' 'unsafe-inline' https://storage.ko-fi.com https://ko-fi.com; style-src 'self' 'unsafe-inline' https://storage.ko-fi.com https://ko-fi.com; img-src 'self' data: https://storage.ko-fi.com https://ko-fi.com https://*.ko-fi.com; font-src 'self' https://storage.ko-fi.com https://ko-fi.com; connect-src 'self' https://ko-fi.com https://*.ko-fi.com; frame-src https://ko-fi.com https://*.ko-fi.com; object-src 'none'; frame-ancestors 'self'; base-uri 'self'; form-action 'self' https://ko-fi.com;"
+      content="default-src 'self'; script-src 'self' 'unsafe-inline' https://storage.ko-fi.com https://ko-fi.com; style-src 'self' 'unsafe-inline' https://storage.ko-fi.com https://ko-fi.com; img-src 'self' data: https://storage.ko-fi.com https://ko-fi.com https://*.ko-fi.com; font-src 'self' https://storage.ko-fi.com https://ko-fi.com; connect-src 'self' https://ko-fi.com https://*.ko-fi.com; frame-src https://ko-fi.com https://*.ko-fi.com; object-src 'none'; base-uri 'self'; form-action 'self' https://ko-fi.com;"
     />
     <meta name="description" content={description} />
     <meta name="generator" content={Astro.generator} />
@@ -53,8 +53,9 @@ const canonicalUrl = Astro.site
 
     <title>{title}</title>
 
-    <!-- Color scheme declaration for browsers -->
-    <meta name="color-scheme" content="light dark" />
+    <!-- Color scheme declaration for browsers (force light to avoid Safari dark iframe painting) -->
+    <meta name="color-scheme" content="light" />
+    <meta name="supported-color-schemes" content="light" />
 
     <!-- iOS Safari status bar style -->
     <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -76,6 +77,20 @@ const canonicalUrl = Astro.site
       <Footer />
     </slot>
 
+    <script
+      is:inline
+      src="https://storage.ko-fi.com/cdn/scripts/overlay-widget.js"
+    ></script>
+    <script is:inline>
+      if (typeof window !== 'undefined') {
+        window.kofiWidgetOverlay?.draw('josstei', {
+          type: 'floating-chat',
+          'floating-chat.donateButton.text': 'Donate',
+          'floating-chat.donateButton.background-color': '#8b5cf6',
+          'floating-chat.donateButton.text-color': '#fff'
+        });
+      }
+    </script>
   </body>
 </html>
 
@@ -90,6 +105,44 @@ const canonicalUrl = Astro.site
   main {
     position: relative;
     z-index: 1;
+  }
+
+  /* Keep Ko-fi iframe transparent and isolated to avoid Safari compositing bugs */
+  iframe[src*="ko-fi.com"],
+  iframe[src*="storage.ko-fi.com"] {
+    background: transparent !important;
+    border: none !important;
+    color-scheme: light !important;
+  }
+
+  .kofi-widget-overlay {
+    position: fixed !important;
+    isolation: isolate;
+    transform: none !important;
+    filter: none !important;
+    backdrop-filter: none !important;
+    mix-blend-mode: normal !important;
+    opacity: 1 !important;
+    will-change: auto !important;
+  }
+
+  /* Ensure base elements don't trigger Safari white iframe bug */
+  html,
+  body {
+    transform: none !important;
+    filter: none !important;
+    backdrop-filter: none !important;
+    opacity: 1 !important;
+    will-change: auto !important;
+  }
+
+  /* Disable body backdrop/filters when Ko-fi is present to avoid Safari iframe whitening */
+  /* Force light color scheme to prevent dark-mode painting in Safari */
+  html,
+  body {
+    color-scheme: light !important;
+    background-color: var(--bg-primary);
+    background: var(--bg-gradient);
   }
 
 </style>

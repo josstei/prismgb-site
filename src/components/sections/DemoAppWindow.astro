@@ -12,93 +12,27 @@ const { class: className = '' } = Astro.props;
 
 <div class:list={['app-demo', className]} data-demo-app>
   <div class="app-window">
-    <!-- Header - matches real app structure exactly -->
-    <header class="header">
-      <div class="header-left">
-        <h1>
-          <img src="/icons/gem.svg" alt="PrismGB" class="app-icon pixelated" width="27" height="27" />
-          <img src="/Logo.png" alt="PrismGB" class="app-logo pixelated" width="60" height="15" />
-        </h1>
-        <div class="device-status">
-          <span class="status-indicator connected"></span>
-          <span id="deviceStatusText">Connected</span>
-        </div>
-      </div>
-      <div class="header-right">
-        <button class="btn btn-secondary btn-icon" aria-label="Cinematic Mode">
-          <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707"></path>
-            <circle cx="12" cy="12" r="4"></circle>
-          </svg>
-        </button>
-        <button class="btn btn-secondary btn-icon" aria-label="Volume">
-          <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
-            <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
-            <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
-          </svg>
-        </button>
-        <button class="btn btn-secondary btn-icon" aria-label="Fullscreen">
-          <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"></path>
-          </svg>
-        </button>
-        <button class="btn btn-primary btn-icon" aria-label="Settings">
-          <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <circle cx="12" cy="12" r="3"></circle>
-            <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
-          </svg>
-        </button>
-      </div>
-    </header>
-
-    <!-- Main Content -->
-    <main class="main-content">
-      <section class="webcam-section">
-        <div class="webcam-container">
-          <canvas width="200" height="180"></canvas>
-        </div>
-
-        <!-- Controls - matches real app -->
-        <div class="controls">
-          <div class="button-group">
-            <button class="btn btn-success" aria-label="Take Screenshot">
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path>
-                <circle cx="12" cy="13" r="4"></circle>
-              </svg>
-            </button>
-            <button class="btn btn-danger" aria-label="Start Recording">
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" stroke="none">
-                <circle cx="12" cy="12" r="6"></circle>
-                <circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="2"></circle>
-              </svg>
-            </button>
-          </div>
-        </div>
-      </section>
-    </main>
+    <video
+      class="app-video"
+      src="/screen-recording-60fps.mp4"
+      aria-label="PrismGB app demo"
+      autoplay
+      muted
+      loop
+      playsinline
+    ></video>
   </div>
 </div>
 
 <style>
-  /* =====================================================
-     App Demo Container
-     ===================================================== */
   .app-demo {
     flex: 0 0 auto;
     z-index: 2;
   }
 
-  /* =====================================================
-     App Window - scaled from real app at 50%
-     Real app: ~704px min-width, Canvas 640x576
-     Demo: 50% scale = 352px width, Canvas 320x288
-     ===================================================== */
   .app-window {
-    /* Wider window to match real app proportions */
     width: 480px;
-    /* Exact background from real app body */
+    aspect-ratio: 1120 / 608;
     background: linear-gradient(135deg, #0f0f1e 0%, #1a1a2e 50%, #16213e 100%);
     border-radius: 0;
     overflow: hidden;
@@ -108,12 +42,9 @@ const { class: className = '' } = Astro.props;
       0 20px 60px rgba(0, 0, 0, 0.5);
     border: 2px solid rgba(139, 92, 246, 0.3);
     transition: all 0.4s ease, background 0.4s ease;
-    display: flex;
-    flex-direction: column;
     position: relative;
   }
 
-  /* Grid pattern overlay - from real app body::before */
   .app-window::before {
     content: '';
     position: absolute;
@@ -146,294 +77,23 @@ const { class: className = '' } = Astro.props;
     border-color: rgba(139, 92, 246, 0.4);
   }
 
-  /* Pixelated utility */
-  .pixelated {
-    image-rendering: pixelated;
-    image-rendering: crisp-edges;
-  }
-
-  /* =====================================================
-     Header - scaled from real app at 50% (8px 32px -> 4px 16px)
-     ===================================================== */
-  .header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 4px 16px;
-    background: linear-gradient(180deg, rgba(26, 26, 46, 0.8) 0%, rgba(15, 15, 30, 0.7) 100%);
-    border-bottom: 1px solid rgba(139, 92, 246, 0.15);
-    backdrop-filter: blur(10px);
-    position: relative;
-    z-index: 1;
-    transition: opacity 0.4s ease, filter 0.4s ease;
-  }
-
-  .header-left {
-    display: flex;
-    align-items: center;
-    gap: 12px; /* 24px * 0.5 */
-  }
-
-  .header-left h1 {
-    display: flex;
-    align-items: center;
-    gap: 0;
-    margin: 0;
-  }
-
-  .app-icon {
-    width: 27px; /* 54px * 0.5 */
-    height: 27px;
-    filter: drop-shadow(0 0 4px rgba(139, 92, 246, 0.6));
-    animation: demo-icon-glow 4s ease-in-out infinite;
-  }
-
-  .app-logo {
-    height: 15px; /* 30px * 0.5 */
-    width: 60px; /* 120px * 0.5 */
-    filter: drop-shadow(0 0 5px rgba(139, 92, 246, 0.7));
-    background: radial-gradient(ellipse at center, rgba(0, 0, 0, 0.25) 0%, transparent 70%);
-  }
-
-  /* Device Status - scaled from real app at 50% */
-  .device-status {
-    display: flex;
-    align-items: center;
-    gap: 5px; /* 10px * 0.5 */
-    padding: 4px 8px; /* 8px 16px * 0.5 */
-    background: linear-gradient(135deg, rgba(139, 92, 246, 0.15) 0%, rgba(124, 58, 237, 0.1) 100%);
-    border: 1px solid rgba(139, 92, 246, 0.3);
-    border-radius: 10px; /* 20px * 0.5 */
-    font-size: 6.5px; /* 13px * 0.5 */
-    font-weight: 500;
-  }
-
-  .status-indicator {
-    width: 5px; /* 10px * 0.5 */
-    height: 5px;
-    border-radius: 50%;
-    background: #666;
-    box-shadow: 0 0 4px currentColor;
-    animation: pulse 1.5s ease-in-out infinite;
-  }
-
-  .status-indicator.connected {
-    background: var(--success);
-    box-shadow: 0 0 5px rgba(16, 185, 129, 0.7);
-  }
-
-  .header-right {
-    display: flex;
-    gap: 4px; /* 8px * 0.5 */
-    align-items: center;
-  }
-
-  /* =====================================================
-     Buttons - scaled from real app at 50% (12px 24px -> 6px 12px)
-     Static display only - no interactions
-     ===================================================== */
-  .btn {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 6px 12px; /* 12px 24px * 0.5 */
-    border: none;
-    border-radius: 5px; /* 10px * 0.5 */
-    font-size: 7px; /* 14px * 0.5 */
-    font-weight: 600;
-    cursor: default;
-    pointer-events: none;
-    position: relative;
-    overflow: hidden;
-  }
-
-  .btn svg {
-    vertical-align: middle;
-  }
-
-  .btn-primary {
-    background: linear-gradient(135deg, var(--accent-bright) 0%, var(--accent-dark) 100%);
-    color: white;
-    box-shadow: 0 2px 7px rgba(139, 92, 246, 0.4);
-  }
-
-  .btn-secondary {
-    background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%);
-    color: var(--text-primary);
-    border: 1px solid rgba(139, 92, 246, 0.3);
-  }
-
-  /* Icon-only buttons for header (scaled to 50%) */
-  .btn-icon {
-    padding: 4px; /* 8px * 0.5 */
-    border-radius: 4px;
-  }
-
-  .btn-icon svg {
-    display: block;
-  }
-
-  .btn-success {
-    background: linear-gradient(135deg, var(--success) 0%, #059669 100%);
-    color: white;
-    box-shadow: 0 2px 7px rgba(16, 185, 129, 0.4);
-  }
-
-  .btn-danger {
-    background: linear-gradient(135deg, #f43f5e 0%, #e11d48 100%);
-    color: white;
-    box-shadow: 0 2px 7px rgba(244, 63, 94, 0.4);
-  }
-
-  /* =====================================================
-     Main Content - scaled from real app at 50% (32px -> 16px)
-     ===================================================== */
-  .main-content {
-    display: flex;
-    flex: 1;
-    overflow: hidden;
-    position: relative;
-    z-index: 1;
-  }
-
-  .webcam-section {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    padding: 16px; /* 32px * 0.5 */
-    gap: 12px; /* 24px * 0.5 */
-    align-items: center;
-    justify-content: center;
-  }
-
-  .webcam-container {
-    position: relative;
-    width: 200px;
-    height: 180px;
-    aspect-ratio: 160 / 144;
-    background: #000;
-    overflow: hidden;
-    box-shadow:
-      0 0 0 1.5px rgba(139, 92, 246, 0.2),
-      0 0 20px rgba(139, 92, 246, 0.15),
-      0 10px 30px rgba(0, 0, 0, 0.5);
-    border: 1px solid rgba(139, 92, 246, 0.3);
-    transition: box-shadow var(--transition-medium), border-color var(--transition-medium);
-  }
-
-  .webcam-container canvas {
-    display: block;
+  .app-video {
     width: 100%;
     height: 100%;
-    image-rendering: pixelated;
-    image-rendering: crisp-edges;
-    filter: brightness(1.1) contrast(1.05);
+    display: block;
+    object-fit: cover;
+    filter: brightness(1.05) contrast(1.05);
   }
 
-  /* =====================================================
-     Controls - scaled from real app (gap 12px -> 6px)
-     ===================================================== */
-  .controls {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 6px;
-    justify-content: center;
-    align-items: center;
-    transition: opacity 0.4s ease, filter 0.4s ease;
-  }
-
-  .button-group {
-    display: flex;
-    gap: 6px;
-    align-items: center;
-    justify-content: center;
-  }
-
-  /* =====================================================
-     Keyframes - from real app
-     ===================================================== */
-  @keyframes demo-icon-glow {
-    0%, 100% { filter: drop-shadow(0 0 4px rgba(139, 92, 246, 0.6)); }
-    50% { filter: drop-shadow(0 0 5px rgba(167, 139, 250, 0.7)); }
-  }
-
-  /* =====================================================
-     Responsive - scales down to ~30% for mobile
-     ===================================================== */
-  @media (max-width: 768px) {
-    .app-demo {
-      flex-shrink: 0;
-    }
-
+  @media (max-width: 900px) {
     .app-window {
       width: 340px;
     }
+  }
 
-    .webcam-container {
-      width: 180px;
-      height: 162px;
-    }
-
-    .webcam-section {
-      padding: 10px; /* 32px * 0.30 */
-      gap: 7px; /* 24px * 0.30 */
-    }
-
-    .header {
-      padding: 2px 10px; /* 8px 32px * 0.30 */
-    }
-
-    .header-left {
-      gap: 7px; /* 24px * 0.30 */
-    }
-
-    .device-status {
-      display: none;
-    }
-
-    .btn {
-      padding: 4px 7px; /* 12px 24px * 0.30 */
-    }
-
-    .btn svg {
-      width: 8px;
-      height: 8px;
-    }
-
-    .app-icon {
-      width: 16px; /* 54px * 0.30 */
-      height: 16px;
-    }
-
-    .app-logo {
-      width: 36px; /* 120px * 0.30 */
-      height: 9px; /* 30px * 0.30 */
+  @media (max-width: 600px) {
+    .app-window {
+      width: 280px;
     }
   }
 </style>
-
-<script>
-  import { drawGameFrame } from '../../scripts/demo-canvas.js';
-  import { registerRenderer } from '../../scripts/demo-animator.js';
-
-  document.addEventListener('DOMContentLoaded', () => {
-    const scriptEl = document.currentScript;
-    const root = (scriptEl?.closest('[data-demo-app]') || document.querySelector('[data-demo-app]')) as HTMLElement | null;
-    const mainCanvas = root?.querySelector('canvas') as HTMLCanvasElement | null;
-    const mainCtx = mainCanvas?.getContext('2d');
-
-    const cleanupRenderer = registerRenderer(mainCtx, mainCanvas, (ctx, width, height, time) => {
-      drawGameFrame(ctx, width, height, time, { showLabel: true });
-    });
-
-    // Seed a still frame for reduced-motion users
-    if (mainCtx && mainCanvas) {
-      drawGameFrame(mainCtx, mainCanvas.width, mainCanvas.height, 0, { showLabel: true });
-    }
-
-    // Cleanup
-    window.addEventListener('beforeunload', () => {
-      cleanupRenderer();
-    });
-  });
-</script>
