@@ -123,6 +123,10 @@
         "icon": "tool",
         "questions": [
           {
+            "question": "Why does PrismGB need camera and microphone access on Mac?",
+            "answer": "The Chromatic streams video over USB, and macOS treats USB video devices as cameras. PrismGB will ask for camera and microphone access the first time you launch it—just click Allow. If you missed the prompt, you can grant permission in System Settings → Privacy & Security. Without this, the video stream won't appear."
+          },
+          {
             "question": "My Chromatic isn't detected. What should I do?",
             "answer": "Make sure your Chromatic is powered on, then try a different USB port or cable. If it still doesn't show up, restart PrismGB and plug it back in."
           },
