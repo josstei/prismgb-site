@@ -14,13 +14,15 @@ const { class: className = '' } = Astro.props;
   <div class="app-window">
     <video
       class="app-video"
-      src="/screen-recording-60fps.mp4"
       aria-label="PrismGB app demo"
       autoplay
       muted
       loop
       playsinline
-    ></video>
+    >
+      <source src="/app-demo.webm" type="video/webm" />
+      <source src="/app-demo.mp4" type="video/mp4" />
+    </video>
   </div>
 </div>
 
@@ -32,7 +34,7 @@ const { class: className = '' } = Astro.props;
 
   .app-window {
     width: 480px;
-    aspect-ratio: 1120 / 608;
+    aspect-ratio: 1120 / 586;
     background: var(--bg-gradient);
     border-radius: 0;
     overflow: hidden;
