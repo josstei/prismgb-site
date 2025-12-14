@@ -211,7 +211,10 @@ body::before {
 body::after {
   content: '';
   position: fixed;
-  inset: 0;
+  top: calc(-1 * env(safe-area-inset-top, 0px));
+  right: 0;
+  bottom: calc(-1 * env(safe-area-inset-bottom, 0px));
+  left: 0;
   background: conic-gradient(
     from 120deg,
     rgba(255, 0, 128, 0.08),

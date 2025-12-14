@@ -85,7 +85,7 @@ src/
 │   └── demo-animator.js  # Shared RAF loop with visibility handling
 ├── styles/           # Global styles and utilities
 └── pages/            # Astro pages
-public/               # Icons, images, and app logo
+public/               # Icons, images, videos, and app logo
 ```
 
 ### Interactive Demo
@@ -93,6 +93,7 @@ public/               # Icons, images, and app logo
 - A single shared animator drives both canvases and pauses automatically on `prefers-reduced-motion` and `visibilitychange`
 - Static layers (sky/ground/grass) are cached per canvas size; each frame only draws moving elements
 - Initial frames are rendered once so reduced-motion users still see the scene
+- App demo video uses WebM (VP9) with MP4 fallback for optimal compression and browser compatibility
 
 ## Deployment
 
