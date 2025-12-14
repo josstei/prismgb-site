@@ -27,6 +27,33 @@ const variantClasses = {
     z-index: 1;
   }
 
+  /* Rainbow gradient divider at top */
+  .section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: min(80%, 600px);
+    height: 1px;
+    background: linear-gradient(
+      90deg,
+      transparent 0%,
+      rgba(255, 0, 128, 0.4) 15%,
+      rgba(255, 150, 0, 0.4) 30%,
+      rgba(0, 255, 100, 0.4) 50%,
+      rgba(0, 180, 255, 0.4) 70%,
+      rgba(130, 0, 255, 0.4) 85%,
+      transparent 100%
+    );
+    opacity: 0;
+    transition: opacity var(--transition-medium);
+  }
+
+  .section:not(:first-child)::before {
+    opacity: 1;
+  }
+
   .section__container {
     width: 100%;
     max-width: var(--container-max);
@@ -36,18 +63,39 @@ const variantClasses = {
   .section--gradient {
     background: linear-gradient(
       180deg,
-      rgba(139, 92, 246, 0.05) 0%,
+      rgba(255, 0, 128, 0.04) 0%,
+      rgba(0, 200, 255, 0.02) 50%,
       transparent 100%
     );
   }
 
   .section--dark {
-    background: rgba(0, 0, 0, 0.2);
+    background: rgba(0, 0, 0, 0.25);
+  }
+
+  /* Darker section gets stronger divider */
+  .section--dark::before {
+    height: 2px;
+    background: linear-gradient(
+      90deg,
+      transparent 0%,
+      rgba(255, 0, 128, 0.6) 10%,
+      rgba(255, 150, 0, 0.5) 25%,
+      rgba(255, 255, 0, 0.4) 40%,
+      rgba(0, 255, 100, 0.5) 55%,
+      rgba(0, 180, 255, 0.5) 70%,
+      rgba(130, 0, 255, 0.6) 90%,
+      transparent 100%
+    );
   }
 
   @media (max-width: 768px) {
     .section {
       padding: 3rem 1rem;
+    }
+
+    .section::before {
+      width: 90%;
     }
   }
 </style>

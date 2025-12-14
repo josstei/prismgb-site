@@ -10,9 +10,10 @@ interface NavItem {
 interface Props {
   class?: string;
   navigation?: NavItem[];
+  supportEmail?: string;
 }
 
-const { class: className = '', navigation = [] } = Astro.props;
+const { class: className = '', navigation = [], supportEmail = '' } = Astro.props;
 const internalLinks = navigation.filter((item) => !item.external);
 const externalLinks = navigation.filter((item) => item.external);
 const currentYear = new Date().getFullYear();
@@ -24,6 +25,12 @@ const currentYear = new Date().getFullYear();
       {internalLinks.map((item) => (
         <a href={item.href} class="footer__link">{item.label}</a>
       ))}
+      {supportEmail && (
+        <a href={`mailto:${supportEmail}`} class="footer__link footer__link--email">
+          <Icon name="mail" size={16} />
+          Support
+        </a>
+      )}
       {externalLinks.map((item) => (
         <a
           href={item.href}
@@ -42,20 +49,19 @@ const currentYear = new Date().getFullYear();
         &copy; {currentYear} Josstei.
       </p>
       <p class="footer__disclaimer">
-        PrismGB is an independent community project. Not affiliated with
+        PrismGB is an independent community project and is not affiliated with, endorsed by, or sponsored by
         <a href="https://modretro.com" target="_blank" rel="noopener noreferrer">ModRetro</a>.
       </p>
     </div>
   </div>
 </footer>
-
 <style>
   .footer {
     position: relative;
     z-index: 1;
-    border-top: 1px solid rgba(139, 92, 246, 0.15);
+    border-top: 1px solid var(--accent-15);
     background-color: var(--bg-tertiary);
-    background-image: linear-gradient(
+    background: linear-gradient(
       180deg,
       transparent 0%,
       var(--bg-tertiary) 100%
@@ -94,6 +100,14 @@ const currentYear = new Date().getFullYear();
 
   .footer__link:hover {
     color: var(--text-white);
+  }
+
+  .footer__link--email {
+    color: var(--accent-bright);
+  }
+
+  .footer__link--email:hover {
+    color: var(--accent-light);
   }
 
   .footer__bottom {

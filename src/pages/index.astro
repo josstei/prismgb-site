@@ -4,14 +4,19 @@ import Hero from '../components/sections/Hero.astro';
 import Features from '../components/sections/Features.astro';
 import GetStarted from '../components/sections/GetStarted.astro';
 import Download from '../components/sections/Download.astro';
+import FAQ from '../components/sections/FAQ.astro';
 import Disclaimer from '../components/sections/Disclaimer.astro';
 import Header from '../components/layout/Header.astro';
 import Footer from '../components/layout/Footer.astro';
 
 // Import content
 import siteContent from '../content/site.json';
+import { getLatestRelease, GITHUB_REPO_URL } from '../lib/github.js';
 
-const { site, features, download, disclaimer, gettingStarted, navigation } = siteContent;
+const { site, features, disclaimer, gettingStarted, navigation, faq, support } = siteContent;
+
+// Fetch latest release from GitHub at build time
+const release = await getLatestRelease();
 ---
 
 <BaseLayout description={site.description}>
@@ -24,20 +29,21 @@ const { site, features, download, disclaimer, gettingStarted, navigation } = sit
     description={site.description}
   />
 
-  <Features features={features} />
+  <Features primary={features.primary} secondary={features.secondary} />
 
   <GetStarted steps={gettingStarted} />
 
   <Download
-    version={download.version}
-    githubUrl={download.githubUrl}
-    platforms={download.platforms}
-    kofiUsername={download.kofiUsername}
+    version={release.version}
+    githubUrl={GITHUB_REPO_URL}
+    platforms={release.platforms}
   />
+
+  <FAQ faq={faq} support={support} />
 
   <Disclaimer modretroUrl={disclaimer.modretroUrl} />
 
   <Fragment slot="footer">
-    <Footer navigation={navigation} />
+    <Footer navigation={navigation} supportEmail={support.email} />
   </Fragment>
 </BaseLayout>

@@ -1,27 +1,61 @@
+/* Font Faces */
+@font-face {
+  font-family: 'JetBrains Mono';
+  src: url('/fonts/JetBrainsMono-Regular.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'JetBrains Mono';
+  src: url('/fonts/JetBrainsMono-Medium.woff2') format('woff2');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'JetBrains Mono';
+  src: url('/fonts/JetBrainsMono-Bold.woff2') format('woff2');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
 /* CSS Variables - Design Tokens */
 :root {
+  /* Typography */
+  --font-display: 'JetBrains Mono', monospace;
+  --font-body: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+
   /* Backgrounds */
   --bg-primary: #0f0f1e;
   --bg-secondary: #1a1a2e;
   --bg-tertiary: #16213e;
   --bg-gradient: linear-gradient(135deg, #0f0f1e 0%, #1a1a2e 50%, #16213e 100%);
 
-  /* Accent (Purple) */
-  --accent-bright: #8b5cf6;
-  --accent-medium: #7c3aed;
-  --accent-dark: #6d28d9;
-  --accent-light: #a78bfa;
+  /* Accent (Prismatic - Magenta primary) */
+  --accent-bright: #ff0080;
+  --accent-medium: #e60073;
+  --accent-dark: #cc0066;
+  --accent-light: #ff4da6;
+  /* Secondary accent (Cyan) */
+  --accent-secondary: #00ffff;
+  --accent-secondary-dark: #00cccc;
+  /* Tertiary accent (Yellow) */
+  --accent-tertiary: #ffff00;
   /* Accent with opacity levels */
-  --accent-05: rgba(139, 92, 246, 0.05);
-  --accent-08: rgba(139, 92, 246, 0.08);
-  --accent-10: rgba(139, 92, 246, 0.1);
-  --accent-15: rgba(139, 92, 246, 0.15);
-  --accent-20: rgba(139, 92, 246, 0.2);
-  --accent-25: rgba(139, 92, 246, 0.25);
-  --accent-30: rgba(139, 92, 246, 0.3);
-  --accent-40: rgba(139, 92, 246, 0.4);
-  --accent-50: rgba(139, 92, 246, 0.5);
-  --accent-60: rgba(139, 92, 246, 0.6);
+  --accent-05: rgba(255, 0, 128, 0.05);
+  --accent-08: rgba(255, 0, 128, 0.08);
+  --accent-10: rgba(255, 0, 128, 0.1);
+  --accent-15: rgba(255, 0, 128, 0.15);
+  --accent-20: rgba(255, 0, 128, 0.2);
+  --accent-25: rgba(255, 0, 128, 0.25);
+  --accent-30: rgba(255, 0, 128, 0.3);
+  --accent-40: rgba(255, 0, 128, 0.4);
+  --accent-50: rgba(255, 0, 128, 0.5);
+  --accent-60: rgba(255, 0, 128, 0.6);
   --accent-glow: var(--accent-40);
 
   /* Status Colors */
@@ -64,17 +98,18 @@
   );
 
   /* Effects */
-  --glass-bg: rgba(26, 26, 46, 0.8);
-  --glass-bg-light: rgba(26, 26, 46, 0.6);
-  --glass-border: var(--accent-15);
-  --glass-border-hover: var(--accent-30);
+  --glass-bg: rgba(15, 15, 30, 0.6);
+  --glass-bg-light: rgba(15, 15, 30, 0.4);
+  --glass-border: rgba(255, 255, 255, 0.08);
+  --glass-border-hover: rgba(255, 255, 255, 0.15);
   --surface-panel: linear-gradient(135deg, var(--accent-10) 0%, var(--accent-05) 100%);
   --surface-panel-border: var(--accent-20);
   --surface-strong: linear-gradient(135deg, var(--accent-15) 0%, var(--accent-08) 100%);
   --surface-strong-border: var(--accent-30);
   --surface-soft: linear-gradient(135deg, var(--accent-05) 0%, transparent 100%);
-  --blur: 20px;
-  --blur-light: 10px;
+  --blur: 24px;
+  --blur-light: 12px;
+  --blur-heavy: 40px;
 
   /* Breakpoints (for documentation - use in media queries) */
   /* --breakpoint-sm: 480px;   Small mobile */
@@ -82,15 +117,15 @@
   /* --breakpoint-lg: 900px;   Desktop */
   /* --breakpoint-xl: 1200px;  Large desktop */
 
-  /* Spacing */
-  --section-padding-y: 5rem;
+  /* Spacing (premium whitespace) */
+  --section-padding-y: 7rem;
   --section-padding-x: 2rem;
   --container-max: 1200px;
   --gap-xs: 0.5rem;
   --gap-sm: 1rem;
   --gap-md: 1.5rem;
-  --gap-lg: 2rem;
-  --gap-xl: 3rem;
+  --gap-lg: 3rem;
+  --gap-xl: 4.5rem;
 
   /* Border radius */
   --radius-sm: 8px;
@@ -102,7 +137,8 @@
   --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.3);
   --shadow-md: 0 4px 14px rgba(0, 0, 0, 0.4);
   --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.5);
-  --shadow-glow-purple: 0 4px 14px rgba(139, 92, 246, 0.4);
+  --shadow-glow: 0 4px 14px rgba(255, 0, 128, 0.4);
+  --shadow-glow-prismatic: 0 4px 20px rgba(255, 0, 128, 0.3), 0 0 40px rgba(0, 255, 255, 0.1);
   --shadow-glow-success: 0 4px 14px rgba(16, 185, 129, 0.4);
 
   /* Transitions */
@@ -145,7 +181,7 @@ html {
 }
 
 body {
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+  font-family: var(--font-body);
   background-color: var(--bg-primary);
   background: var(--bg-gradient);
   color: var(--text-primary);
@@ -156,7 +192,7 @@ body {
   padding: 0;
 }
 
-/* Background Pattern (subtle grid) */
+/* Grain texture overlay */
 body::before {
   content: '';
   position: fixed;
@@ -164,67 +200,107 @@ body::before {
   right: 0;
   bottom: calc(-1 * env(safe-area-inset-bottom, 0px));
   left: 0;
-  background:
-    repeating-linear-gradient(
-      90deg,
-      rgba(139, 92, 246, 0.03) 0px,
-      transparent 2px,
-      transparent 80px,
-      rgba(139, 92, 246, 0.03) 82px
-    ),
-    repeating-linear-gradient(
-      0deg,
-      rgba(139, 92, 246, 0.03) 0px,
-      transparent 2px,
-      transparent 80px,
-      rgba(139, 92, 246, 0.03) 82px
-    );
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+  opacity: 0.025;
+  mix-blend-mode: overlay;
   pointer-events: none;
   z-index: 0;
 }
 
-/* Subtle prismatic sheen */
+/* Prismatic sheen - optimized rotating gradient */
 body::after {
   content: '';
   position: fixed;
-  top: calc(-1 * env(safe-area-inset-top, 0px));
-  right: 0;
-  bottom: calc(-1 * env(safe-area-inset-bottom, 0px));
-  left: 0;
+  inset: 0;
   background: conic-gradient(
     from 120deg,
-    rgba(255, 0, 128, 0.04),
-    rgba(255, 128, 0, 0.04),
-    rgba(255, 255, 0, 0.04),
-    rgba(0, 255, 128, 0.04),
-    rgba(0, 170, 255, 0.04),
-    rgba(128, 0, 255, 0.04),
-    rgba(255, 0, 128, 0.04)
+    rgba(255, 0, 128, 0.08),
+    rgba(255, 100, 0, 0.07),
+    rgba(255, 200, 0, 0.06),
+    rgba(0, 255, 100, 0.06),
+    rgba(0, 200, 255, 0.07),
+    rgba(130, 0, 255, 0.08),
+    rgba(255, 0, 128, 0.08)
   );
   mix-blend-mode: screen;
   filter: blur(60px);
-  opacity: 0.35;
+  opacity: 0.6;
   pointer-events: none;
   z-index: 0;
-  animation: prismatic-sheen 22s linear infinite;
+  transform: scale(1.2) translateZ(0);
+  will-change: transform;
+  animation: prismatic-sheen 40s linear infinite;
 }
 
 @keyframes prismatic-sheen {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+  0% { transform: scale(1.2) rotate(0deg) translateZ(0); }
+  100% { transform: scale(1.2) rotate(360deg) translateZ(0); }
+}
+
+/* Atmospheric color orbs - GPU optimized */
+.prismatic-orbs {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  pointer-events: none;
+  z-index: 0;
+  overflow: hidden;
+  contain: strict;
+}
+
+.prismatic-orbs::before,
+.prismatic-orbs::after {
+  content: '';
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(80px);
+  opacity: 0.35;
+  will-change: transform;
+  animation: orb-drift 30s ease-in-out infinite;
+}
+
+.prismatic-orbs::before {
+  width: 500px;
+  height: 500px;
+  top: -200px;
+  right: -100px;
+  background: radial-gradient(circle, rgba(255, 0, 128, 0.25) 0%, transparent 70%);
+  animation-delay: 0s;
+}
+
+.prismatic-orbs::after {
+  width: 400px;
+  height: 400px;
+  bottom: -150px;
+  left: -100px;
+  background: radial-gradient(circle, rgba(0, 200, 255, 0.2) 0%, transparent 70%);
+  animation-delay: -15s;
+}
+
+@keyframes orb-drift {
+  0%, 100% { transform: translate3d(0, 0, 0) scale(1); }
+  50% { transform: translate3d(20px, 15px, 0) scale(1.03); }
 }
 
 @media (prefers-reduced-motion: reduce) {
   body::after {
     animation: none;
   }
+  .prismatic-orbs::before,
+  .prismatic-orbs::after {
+    animation: none;
+  }
 }
 
 /* Typography */
 h1, h2, h3, h4, h5, h6 {
-  font-weight: 600;
+  font-family: var(--font-display);
+  font-weight: 700;
   line-height: 1.2;
   color: var(--text-white);
+  letter-spacing: -0.02em;
 }
 
 h1 { font-size: clamp(2.5rem, 5vw, 4rem); }
@@ -255,10 +331,10 @@ a:hover {
   padding: 0 var(--section-padding-x);
 }
 
-/* Scrollbar */
+/* Scrollbar - Rainbow on hover */
 ::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
+  width: 10px;
+  height: 10px;
 }
 
 ::-webkit-scrollbar-track {
@@ -266,17 +342,34 @@ a:hover {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.2);
-  border-radius: 4px;
+  background: linear-gradient(
+    180deg,
+    rgba(255, 0, 128, 0.4) 0%,
+    rgba(255, 100, 0, 0.4) 25%,
+    rgba(0, 200, 100, 0.4) 50%,
+    rgba(0, 150, 255, 0.4) 75%,
+    rgba(130, 0, 255, 0.4) 100%
+  );
+  border-radius: 5px;
+  border: 2px solid transparent;
+  background-clip: padding-box;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(255, 255, 255, 0.3);
+  background: linear-gradient(
+    180deg,
+    rgba(255, 0, 128, 0.7) 0%,
+    rgba(255, 100, 0, 0.7) 25%,
+    rgba(0, 200, 100, 0.7) 50%,
+    rgba(0, 150, 255, 0.7) 75%,
+    rgba(130, 0, 255, 0.7) 100%
+  );
+  background-clip: padding-box;
 }
 
 /* Selection */
 ::selection {
-  background: rgba(139, 92, 246, 0.3);
+  background: var(--accent-30);
   color: var(--text-white);
 }
 
