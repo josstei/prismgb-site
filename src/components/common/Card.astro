@@ -26,12 +26,43 @@ const variantClasses = {
     border-radius: var(--radius-md);
     padding: 1.5rem;
     transition: all var(--transition-fast);
+    position: relative;
+  }
+
+  /* Rainbow border effect using pseudo-element */
+  .card::before {
+    content: '';
+    position: absolute;
+    inset: -1px;
+    border-radius: inherit;
+    padding: 1px;
+    background: linear-gradient(
+      135deg,
+      rgba(255, 0, 128, 0.3),
+      rgba(255, 100, 0, 0.3),
+      rgba(0, 200, 100, 0.3),
+      rgba(0, 150, 255, 0.3),
+      rgba(130, 0, 255, 0.3)
+    );
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    opacity: 0;
+    transition: opacity var(--transition-fast);
+    pointer-events: none;
   }
 
   .card:hover {
-    border-color: var(--accent-40);
-    transform: translateY(-4px);
-    box-shadow: 0 8px 24px var(--accent-15);
+    transform: translateY(-4px) translateZ(0);
+    box-shadow:
+      0 8px 24px var(--accent-15),
+      0 0 30px rgba(255, 0, 128, 0.1),
+      0 0 50px rgba(0, 200, 255, 0.05);
+  }
+
+  .card:hover::before {
+    opacity: 1;
   }
 
   .card--glow {
@@ -39,8 +70,10 @@ const variantClasses = {
   }
 
   .card--glow:hover {
-    box-shadow: 0 0 30px var(--accent-30),
-                0 8px 24px var(--accent-15);
+    box-shadow:
+      0 0 30px var(--accent-30),
+      0 8px 24px var(--accent-15),
+      0 0 50px rgba(0, 200, 255, 0.1);
   }
 
   .card--feature {

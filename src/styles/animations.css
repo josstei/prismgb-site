@@ -1,16 +1,14 @@
-/* Icon glow - cycles through rainbow colors */
+/* Icon glow - optimized opacity pulse (GPU-friendly) */
 @keyframes icon-glow {
   0%, 100% {
-    filter: drop-shadow(0 0 8px rgba(255, 0, 153, 0.6))
-            drop-shadow(0 0 12px rgba(0, 255, 153, 0.4));
+    opacity: 1;
+    filter: drop-shadow(0 0 8px rgba(255, 0, 153, 0.55))
+            drop-shadow(0 0 12px rgba(0, 255, 153, 0.35));
   }
-  33% {
-    filter: drop-shadow(0 0 8px rgba(0, 255, 153, 0.6))
-            drop-shadow(0 0 12px rgba(0, 170, 255, 0.4));
-  }
-  66% {
-    filter: drop-shadow(0 0 8px rgba(0, 170, 255, 0.6))
-            drop-shadow(0 0 12px rgba(255, 0, 153, 0.4));
+  50% {
+    opacity: 0.95;
+    filter: drop-shadow(0 0 10px rgba(255, 0, 153, 0.65))
+            drop-shadow(0 0 16px rgba(0, 255, 153, 0.45));
   }
 }
 
@@ -20,22 +18,59 @@
   50% { opacity: 0.5; }
 }
 
-/* Subtle float animation */
+/* Subtle float animation - GPU optimized */
 @keyframes float {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-10px); }
+  0%, 100% { transform: translateY(0) translateZ(0); }
+  50% { transform: translateY(-10px) translateZ(0); }
 }
 
-/* Fade in up */
+/* Fade in up - GPU optimized */
 @keyframes fadeInUp {
   from {
     opacity: 0;
-    transform: translateY(20px);
+    transform: translateY(20px) translateZ(0);
   }
   to {
     opacity: 1;
-    transform: translateY(0);
+    transform: translateY(0) translateZ(0);
   }
+}
+
+/* Chromatic aberration effect */
+@keyframes chromatic-shift {
+  0%, 100% {
+    text-shadow:
+      -1px 0 rgba(255, 0, 128, 0.5),
+      1px 0 rgba(0, 255, 255, 0.5);
+  }
+  50% {
+    text-shadow:
+      -2px 0 rgba(255, 0, 128, 0.6),
+      2px 0 rgba(0, 255, 255, 0.6);
+  }
+}
+
+.chromatic-hover {
+  transition: text-shadow 0.15s ease;
+}
+
+.chromatic-hover:hover {
+  text-shadow:
+    -1px 0 rgba(255, 0, 128, 0.5),
+    1px 0 rgba(0, 255, 255, 0.5);
+}
+
+.chromatic-hover:active {
+  text-shadow:
+    -2px 0 rgba(255, 0, 128, 0.7),
+    2px 0 rgba(0, 255, 255, 0.7);
+}
+
+/* Chromatic aberration for images/elements */
+.chromatic-element:hover {
+  filter:
+    drop-shadow(-2px 0 rgba(255, 0, 128, 0.4))
+    drop-shadow(2px 0 rgba(0, 255, 255, 0.4));
 }
 
 /* Reduced motion */
@@ -46,5 +81,14 @@
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
+  }
+
+  .chromatic-hover:hover,
+  .chromatic-hover:active {
+    text-shadow: none !important;
+  }
+
+  .chromatic-element:hover {
+    filter: none !important;
   }
 }

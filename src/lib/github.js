@@ -18,34 +18,47 @@ const ASSET_PATTERNS = {
 };
 
 /**
- * Fallback data used when GitHub API is unavailable or rate-limited.
+ * Fallback version used when GitHub API is unavailable or rate-limited.
  */
-const FALLBACK_DATA = {
-  version: '1.1.2',
-  releasesUrl: `https://github.com/${GITHUB_OWNER}/${GITHUB_REPO}/releases`,
-  platforms: [
+const FALLBACK_VERSION = '1.0.0';
+
+/**
+ * Generates platform download info from a version string.
+ */
+function buildPlatformData(version) {
+  const baseUrl = `https://github.com/${GITHUB_OWNER}/${GITHUB_REPO}/releases/download/v${version}`;
+  return [
     {
       name: 'windows',
       icon: 'windows',
       label: 'Windows',
-      filename: 'PrismGB-Setup-1.1.2.exe',
-      downloadUrl: `https://github.com/${GITHUB_OWNER}/${GITHUB_REPO}/releases/download/v1.1.2/PrismGB-Setup-1.1.2.exe`,
+      filename: `PrismGB-Setup-${version}.exe`,
+      downloadUrl: `${baseUrl}/PrismGB-Setup-${version}.exe`,
     },
     {
       name: 'macos',
       icon: 'apple',
       label: 'macOS',
-      filename: 'PrismGB-1.1.2-mac.dmg',
-      downloadUrl: `https://github.com/${GITHUB_OWNER}/${GITHUB_REPO}/releases/download/v1.1.2/PrismGB-1.1.2-mac.dmg`,
+      filename: `PrismGB-${version}-mac.dmg`,
+      downloadUrl: `${baseUrl}/PrismGB-${version}-mac.dmg`,
     },
     {
       name: 'linux',
       icon: 'linux-download',
       label: 'Linux',
-      filename: 'PrismGB-1.1.2-x86_64.AppImage',
-      downloadUrl: `https://github.com/${GITHUB_OWNER}/${GITHUB_REPO}/releases/download/v1.1.2/PrismGB-1.1.2-x86_64.AppImage`,
+      filename: `PrismGB-${version}-x86_64.AppImage`,
+      downloadUrl: `${baseUrl}/PrismGB-${version}-x86_64.AppImage`,
     },
-  ],
+  ];
+}
+
+/**
+ * Fallback data used when GitHub API is unavailable or rate-limited.
+ */
+const FALLBACK_DATA = {
+  version: FALLBACK_VERSION,
+  releasesUrl: `https://github.com/${GITHUB_OWNER}/${GITHUB_REPO}/releases`,
+  platforms: buildPlatformData(FALLBACK_VERSION),
 };
 
 /**

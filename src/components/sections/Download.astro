@@ -87,10 +87,33 @@ const {
     gap: 1rem;
     text-align: center;
     margin-bottom: 3rem;
+    position: relative;
   }
 
+  /* Rainbow accent bar under title */
   .download__title {
     font-size: clamp(2rem, 4vw, 2.5rem);
+    position: relative;
+  }
+
+  .download__title::after {
+    content: '';
+    position: absolute;
+    bottom: -0.5rem;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80px;
+    height: 3px;
+    border-radius: 2px;
+    background: linear-gradient(
+      90deg,
+      #ff0080 0%,
+      #ff8000 25%,
+      #00cc66 50%,
+      #00aaff 75%,
+      #8000ff 100%
+    );
+    opacity: 0.8;
   }
 
   .download__grid {

@@ -51,6 +51,10 @@ const canonicalUrl = Astro.site
     <!-- Favicon -->
     <link rel="icon" type="image/svg+xml" href="/icons/gem.svg" />
 
+    <!-- Font preload -->
+    <link rel="preload" href="/fonts/JetBrainsMono-Regular.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/fonts/JetBrainsMono-Bold.woff2" as="font" type="font/woff2" crossorigin />
+
     <title>{title}</title>
 
     <!-- Color scheme declaration for browsers (force light to avoid Safari dark iframe painting) -->
@@ -66,6 +70,9 @@ const canonicalUrl = Astro.site
     <meta name="theme-color" content="#0f0f1e" media="(prefers-color-scheme: light)" />
   </head>
   <body>
+    <!-- Atmospheric prismatic orbs -->
+    <div class="prismatic-orbs" aria-hidden="true"></div>
+
     <a href="#main-content" class="skip-link">Skip to main content</a>
     <slot name="header">
       <Header />
@@ -86,7 +93,7 @@ const canonicalUrl = Astro.site
         window.kofiWidgetOverlay?.draw('josstei', {
           type: 'floating-chat',
           'floating-chat.donateButton.text': 'Donate',
-          'floating-chat.donateButton.background-color': '#8b5cf6',
+          'floating-chat.donateButton.background-color': '#ff0080',
           'floating-chat.donateButton.text-color': '#fff'
         });
       }

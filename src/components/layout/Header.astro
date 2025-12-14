@@ -53,7 +53,7 @@ const getExternalIcon = (label: string) => externalIconMap[label.toLowerCase()] 
     </nav>
 
     <div class="header__actions">
-      <Button href={downloadHref} variant="primary" size="sm">
+      <Button href={downloadHref} variant="rainbow" size="sm">
         Download
       </Button>
       {githubLink && (
@@ -149,9 +149,29 @@ const getExternalIcon = (label: string) => externalIconMap[label.toLowerCase()] 
       rgba(26, 26, 46, 0.95) 0%,
       rgba(15, 15, 30, 0.9) 100%
     );
-    border-bottom: 1px solid var(--accent-15);
+    border-bottom: 1px solid transparent;
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
+  }
+
+  /* Rainbow gradient border at bottom */
+  .header::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(
+      90deg,
+      transparent 0%,
+      rgba(255, 0, 128, 0.5) 15%,
+      rgba(255, 150, 0, 0.4) 30%,
+      rgba(0, 255, 100, 0.4) 50%,
+      rgba(0, 180, 255, 0.5) 70%,
+      rgba(130, 0, 255, 0.4) 85%,
+      transparent 100%
+    );
   }
 
   .header__container {
@@ -175,6 +195,12 @@ const getExternalIcon = (label: string) => externalIconMap[label.toLowerCase()] 
     max-width: 140px;
     image-rendering: pixelated;
     image-rendering: crisp-edges;
+    transition: filter var(--transition-fast);
+  }
+
+  .header__brand:hover .header__logo {
+    filter: drop-shadow(0 0 8px rgba(255, 0, 128, 0.5))
+            drop-shadow(0 0 16px rgba(0, 200, 255, 0.3));
   }
 
   .header__nav {
@@ -229,12 +255,46 @@ const getExternalIcon = (label: string) => externalIconMap[label.toLowerCase()] 
     background: rgba(255, 255, 255, 0.05);
     color: var(--text-primary);
     transition: all var(--transition-fast);
+    position: relative;
+  }
+
+  /* Rainbow ring on hover */
+  .header__github::before {
+    content: '';
+    position: absolute;
+    inset: -2px;
+    border-radius: 50%;
+    background: conic-gradient(
+      from 0deg,
+      rgba(255, 0, 128, 0.6),
+      rgba(255, 150, 0, 0.5),
+      rgba(0, 255, 100, 0.5),
+      rgba(0, 180, 255, 0.6),
+      rgba(130, 0, 255, 0.5),
+      rgba(255, 0, 128, 0.6)
+    );
+    -webkit-mask: radial-gradient(farthest-side, transparent calc(100% - 2px), #fff calc(100% - 2px));
+    mask: radial-gradient(farthest-side, transparent calc(100% - 2px), #fff calc(100% - 2px));
+    opacity: 0;
+    transition: opacity var(--transition-fast);
   }
 
   .header__github:hover {
-    border-color: rgba(255, 255, 255, 0.4);
+    border-color: transparent;
     background: rgba(255, 255, 255, 0.1);
     color: var(--text-white);
+    box-shadow: 0 0 20px rgba(255, 0, 128, 0.3), 0 0 40px rgba(0, 200, 255, 0.15);
+  }
+
+  .header__github:hover::before {
+    opacity: 1;
+    will-change: transform;
+    animation: github-ring-spin 6s linear infinite;
+  }
+
+  @keyframes github-ring-spin {
+    from { transform: rotate(0deg) translateZ(0); }
+    to { transform: rotate(360deg) translateZ(0); }
   }
 
   /* ===== Hamburger Button ===== */
@@ -322,12 +382,31 @@ const getExternalIcon = (label: string) => externalIconMap[label.toLowerCase()] 
     bottom: 0;
     width: min(300px, 85vw);
     background: var(--bg-primary);
-    border-left: 1px solid var(--accent-20);
+    border-left: 2px solid transparent;
     transform: translateX(100%);
     transition: transform var(--transition-medium);
     display: flex;
     flex-direction: column;
     overflow-y: auto;
+  }
+
+  /* Rainbow gradient left border */
+  .mobile-nav::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    width: 2px;
+    background: linear-gradient(
+      180deg,
+      rgba(255, 0, 128, 0.7) 0%,
+      rgba(255, 150, 0, 0.6) 20%,
+      rgba(0, 255, 100, 0.6) 40%,
+      rgba(0, 180, 255, 0.7) 60%,
+      rgba(130, 0, 255, 0.6) 80%,
+      rgba(255, 0, 128, 0.7) 100%
+    );
   }
 
   .mobile-nav-wrapper.is-open .mobile-nav {
@@ -339,7 +418,26 @@ const getExternalIcon = (label: string) => externalIconMap[label.toLowerCase()] 
     align-items: center;
     justify-content: space-between;
     padding: 1rem 1.25rem;
-    border-bottom: 1px solid var(--accent-15);
+    border-bottom: 1px solid transparent;
+    position: relative;
+  }
+
+  /* Rainbow border under header */
+  .mobile-nav__header::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 1rem;
+    right: 1rem;
+    height: 1px;
+    background: linear-gradient(
+      90deg,
+      rgba(255, 0, 128, 0.5),
+      rgba(255, 150, 0, 0.4),
+      rgba(0, 255, 100, 0.4),
+      rgba(0, 180, 255, 0.5),
+      rgba(130, 0, 255, 0.4)
+    );
   }
 
   .mobile-nav__logo {
@@ -358,15 +456,33 @@ const getExternalIcon = (label: string) => externalIconMap[label.toLowerCase()] 
     background: transparent;
     border: 1px solid var(--accent-20);
     border-radius: var(--radius-sm);
-    color: var(--text-secondary);
+    color: var(--accent-light);
     cursor: pointer;
     transition: all var(--transition-fast);
     -webkit-tap-highlight-color: transparent;
     touch-action: manipulation;
+    position: relative;
   }
 
-  .mobile-nav__close {
-    color: var(--accent-light);
+  /* Rainbow border on hover */
+  .mobile-nav__close::before {
+    content: '';
+    position: absolute;
+    inset: -1px;
+    border-radius: inherit;
+    padding: 1px;
+    background: linear-gradient(
+      135deg,
+      rgba(255, 0, 128, 0.7),
+      rgba(0, 200, 255, 0.7),
+      rgba(130, 0, 255, 0.7)
+    );
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    opacity: 0;
+    transition: opacity var(--transition-fast);
   }
 
   .mobile-nav__close :global(.icon) {
@@ -375,8 +491,12 @@ const getExternalIcon = (label: string) => externalIconMap[label.toLowerCase()] 
 
   .mobile-nav__close:hover {
     background: var(--accent-10);
-    border-color: var(--accent-30);
+    border-color: transparent;
     color: var(--accent-bright);
+  }
+
+  .mobile-nav__close:hover::before {
+    opacity: 1;
   }
 
   .mobile-nav__close:hover :global(.icon) {
@@ -408,12 +528,33 @@ const getExternalIcon = (label: string) => externalIconMap[label.toLowerCase()] 
     font-weight: 500;
     border-radius: var(--radius-sm);
     transition: all var(--transition-fast);
+    position: relative;
+    border-left: 2px solid transparent;
+    opacity: 0;
+    transform: translateX(20px);
+  }
+
+  .mobile-nav-wrapper.is-open .mobile-nav__link {
+    animation: slideInLink 0.3s ease forwards;
+  }
+
+  .mobile-nav__section .mobile-nav__link:nth-child(1) { animation-delay: 0.1s; }
+  .mobile-nav__section .mobile-nav__link:nth-child(2) { animation-delay: 0.15s; }
+  .mobile-nav__section .mobile-nav__link:nth-child(3) { animation-delay: 0.2s; }
+  .mobile-nav__section .mobile-nav__link:nth-child(4) { animation-delay: 0.25s; }
+
+  @keyframes slideInLink {
+    to {
+      opacity: 1;
+      transform: translateX(0) translateZ(0);
+    }
   }
 
   .mobile-nav__link:hover,
   .mobile-nav__link:focus {
     color: var(--text-white);
     background: var(--accent-10);
+    border-left-color: var(--accent-primary);
   }
 
   .mobile-nav__link--external {
@@ -447,15 +588,40 @@ const getExternalIcon = (label: string) => externalIconMap[label.toLowerCase()] 
 
   .mobile-nav__divider {
     height: 1px;
-    background: var(--accent-15);
+    background: linear-gradient(
+      90deg,
+      transparent 0%,
+      rgba(255, 0, 128, 0.4) 20%,
+      rgba(0, 200, 255, 0.4) 50%,
+      rgba(130, 0, 255, 0.4) 80%,
+      transparent 100%
+    );
     margin: 0.75rem 0;
   }
 
   .mobile-nav__footer {
     margin-top: auto;
     padding: 1rem 1.25rem;
-    border-top: 1px solid var(--accent-15);
+    border-top: 1px solid transparent;
     text-align: center;
+    position: relative;
+  }
+
+  .mobile-nav__footer::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 1rem;
+    right: 1rem;
+    height: 1px;
+    background: linear-gradient(
+      90deg,
+      transparent 0%,
+      rgba(255, 0, 128, 0.4) 20%,
+      rgba(0, 200, 255, 0.4) 50%,
+      rgba(130, 0, 255, 0.4) 80%,
+      transparent 100%
+    );
   }
 
   .mobile-nav__footer-text {
