@@ -56,18 +56,6 @@ const canonicalUrl = Astro.site
     <link rel="preload" href="/fonts/JetBrainsMono-Bold.woff2" as="font" type="font/woff2" crossorigin />
 
     <title>{title}</title>
-
-    <!-- Color scheme declaration for browsers (force light to avoid Safari dark iframe painting) -->
-    <meta name="color-scheme" content="light" />
-    <meta name="supported-color-schemes" content="light" />
-
-    <!-- iOS Safari status bar style -->
-    <meta name="apple-mobile-web-app-capable" content="yes" />
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-
-    <!-- Theme color for mobile browsers (both light and dark system modes) -->
-    <meta name="theme-color" content="#0f0f1e" media="(prefers-color-scheme: dark)" />
-    <meta name="theme-color" content="#0f0f1e" media="(prefers-color-scheme: light)" />
   </head>
   <body>
     <!-- Atmospheric prismatic orbs -->
@@ -98,15 +86,15 @@ const canonicalUrl = Astro.site
         });
       }
     </script>
+    <script src="/scripts/scroll-header.js" defer></script>
   </body>
 </html>
 
 <style is:global>
-  /* Ensure smooth scrolling and account for fixed header */
+  /* Ensure smooth scrolling and account for fixed header below safe area */
   html {
     scroll-behavior: smooth;
-    scroll-padding-top: 80px;
-    scroll-padding-top: calc(80px + env(safe-area-inset-top));
+    scroll-padding-top: calc(70px + env(safe-area-inset-top, 0px));
   }
 
   main {
@@ -143,13 +131,13 @@ const canonicalUrl = Astro.site
     will-change: auto !important;
   }
 
-  /* Disable body backdrop/filters when Ko-fi is present to avoid Safari iframe whitening */
-  /* Force light color scheme to prevent dark-mode painting in Safari */
-  html,
+  html {
+    background: transparent;
+  }
+
   body {
-    color-scheme: light !important;
     background-color: var(--bg-primary);
-    background: var(--bg-gradient);
+    background-image: var(--bg-gradient);
   }
 
 </style>
