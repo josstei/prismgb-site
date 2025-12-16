@@ -13,7 +13,8 @@ const GITHUB_API = `https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/
  */
 const ASSET_PATTERNS = {
   windows: /PrismGB-Setup-[\d.]+\.exe$/,
-  macos: /PrismGB-[\d.]+-mac\.dmg$/,
+  'macos-arm64': /PrismGB-[\d.]+-mac-arm64\.dmg$/,
+  'macos-x64': /PrismGB-[\d.]+-mac-x64\.dmg$/,
   linux: /PrismGB-[\d.]+-x86_64\.AppImage$/,
 };
 
@@ -36,11 +37,20 @@ function buildPlatformData(version) {
       downloadUrl: `${baseUrl}/PrismGB-Setup-${version}.exe`,
     },
     {
-      name: 'macos',
+      name: 'macos-arm64',
       icon: 'apple',
-      label: 'macOS',
-      filename: `PrismGB-${version}-mac.dmg`,
-      downloadUrl: `${baseUrl}/PrismGB-${version}-mac.dmg`,
+      label: 'macOS (Apple Silicon)',
+      subtitle: 'M1/M2/M3/M4',
+      filename: `PrismGB-${version}-mac-arm64.dmg`,
+      downloadUrl: `${baseUrl}/PrismGB-${version}-mac-arm64.dmg`,
+    },
+    {
+      name: 'macos-x64',
+      icon: 'apple',
+      label: 'macOS (Intel)',
+      subtitle: 'Intel Macs',
+      filename: `PrismGB-${version}-mac-x64.dmg`,
+      downloadUrl: `${baseUrl}/PrismGB-${version}-mac-x64.dmg`,
     },
     {
       name: 'linux',
@@ -98,10 +108,18 @@ export async function getLatestRelease() {
         ...getAssetInfo(assets, 'windows'),
       },
       {
-        name: 'macos',
+        name: 'macos-arm64',
         icon: 'apple',
-        label: 'macOS',
-        ...getAssetInfo(assets, 'macos'),
+        label: 'macOS (Apple Silicon)',
+        subtitle: 'M1/M2/M3/M4',
+        ...getAssetInfo(assets, 'macos-arm64'),
+      },
+      {
+        name: 'macos-x64',
+        icon: 'apple',
+        label: 'macOS (Intel)',
+        subtitle: 'Intel Macs',
+        ...getAssetInfo(assets, 'macos-x64'),
       },
       {
         name: 'linux',
