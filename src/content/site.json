@@ -2,7 +2,7 @@
   "site": {
     "title": "PrismGB",
     "tagline": "Play your Chromatic on any screen",
-    "description": "Plug in your Chromatic and watch, stream, or save your games right from your computer. Crisp video, smooth controls, and an easy setup."
+    "description": "Plug in your Chromatic and watch, stream, or save your screenshots right from your computer. Crisp video, smooth controls, and an easy setup."
   },
   "navigation": [
     { "label": "Features", "href": "#features" },

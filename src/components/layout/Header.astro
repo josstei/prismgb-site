@@ -140,20 +140,47 @@ const getExternalIcon = (label: string) => externalIconMap[label.toLowerCase()] 
   /* ===== Header ===== */
   .header {
     position: fixed;
-    top: 0;
+    top: env(safe-area-inset-top, 0px);
     left: 0;
     right: 0;
     z-index: 100;
-    padding-top: env(safe-area-inset-top, 0px);
-    background-color: #1a1a2e;
-    background-image: linear-gradient(
-      180deg,
-      rgba(26, 26, 46, 0.95) 0%,
-      rgba(15, 15, 30, 0.9) 100%
-    );
+    background: rgba(26, 26, 46, 0.92);
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
     border-bottom: 1px solid transparent;
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+                background 0.2s ease;
+    will-change: transform;
+  }
+
+  /* Scroll states */
+  .header.is-hidden {
+    transform: translateY(-100%);
+  }
+
+  .header.is-at-top {
+    background: rgba(26, 26, 46, 0.75);
+  }
+
+  .header.is-compact .header__container {
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+  }
+
+  .header.is-compact .header__logo {
+    height: 24px;
+  }
+
+  /* Reduced motion */
+  @media (prefers-reduced-motion: reduce) {
+    .header {
+      transition: none;
+    }
+    .header.is-hidden {
+      transform: none;
+      opacity: 0;
+      pointer-events: none;
+    }
   }
 
   /* Rainbow gradient border at bottom */
@@ -174,6 +201,7 @@ const getExternalIcon = (label: string) => externalIconMap[label.toLowerCase()] 
       rgba(130, 0, 255, 0.4) 85%,
       transparent 100%
     );
+    z-index: 1;
   }
 
   .header__container {
@@ -183,6 +211,7 @@ const getExternalIcon = (label: string) => externalIconMap[label.toLowerCase()] 
     max-width: var(--container-max);
     margin: 0 auto;
     padding: 1rem 2rem;
+    transition: padding 0.2s ease;
   }
 
   .header__brand {
@@ -197,7 +226,7 @@ const getExternalIcon = (label: string) => externalIconMap[label.toLowerCase()] 
     max-width: 140px;
     image-rendering: pixelated;
     image-rendering: crisp-edges;
-    transition: filter var(--transition-fast);
+    transition: filter var(--transition-fast), height 0.2s ease;
   }
 
   .header__brand:hover .header__logo {
@@ -673,6 +702,15 @@ const getExternalIcon = (label: string) => externalIconMap[label.toLowerCase()] 
     .header__logo {
       height: 28px;
       max-width: 120px;
+    }
+
+    /* Mobile compact mode */
+    .header.is-compact .header__container {
+      padding: 0.5rem 1rem;
+    }
+
+    .header.is-compact .header__logo {
+      height: 22px;
     }
   }
 
