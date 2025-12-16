@@ -8,11 +8,17 @@
 
     if (!toggle || !wrapper) return;
 
+    function setKofiVisible(visible) {
+      var kofi = document.querySelector('.floatingchat-container-wrap, .floatingchat-container-wrap-mo498, .floatingchat-container');
+      if (kofi) kofi.style.display = visible ? '' : 'none';
+    }
+
     function openMenu() {
       toggle.setAttribute('aria-expanded', 'true');
       wrapper.classList.add('is-open');
       wrapper.setAttribute('aria-hidden', 'false');
       document.body.style.overflow = 'hidden';
+      setKofiVisible(false);
       if (closeBtn) closeBtn.focus();
     }
 
@@ -21,6 +27,7 @@
       wrapper.classList.remove('is-open');
       wrapper.setAttribute('aria-hidden', 'true');
       document.body.style.overflow = '';
+      setKofiVisible(true);
       toggle.focus();
     }
 

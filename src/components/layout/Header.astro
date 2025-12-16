@@ -57,7 +57,7 @@ const getExternalIcon = (label: string) => externalIconMap[label.toLowerCase()] 
         Download
       </Button>
       {githubLink && (
-        <a href={githubLink.href} target="_blank" rel="noopener noreferrer" class="header__github" aria-label="GitHub">
+        <a href={githubLink.href} target="_blank" rel="noopener noreferrer" class="header__icon-link" aria-label="GitHub">
           <Icon name="github" size={24} />
         </a>
       )}
@@ -99,13 +99,11 @@ const getExternalIcon = (label: string) => externalIconMap[label.toLowerCase()] 
         ))}
       </div>
 
-      {externalLinks.filter((item) => item.label.toLowerCase() !== 'ko-fi').length > 0 && (
+      {externalLinks.length > 0 && (
         <>
           <div class="mobile-nav__divider"></div>
           <div class="mobile-nav__section">
-            {externalLinks
-              .filter((item) => item.label.toLowerCase() !== 'ko-fi')
-              .map((item) => (
+            {externalLinks.map((item) => (
                 <a
                   href={item.href}
                   target="_blank"
@@ -275,7 +273,7 @@ const getExternalIcon = (label: string) => externalIconMap[label.toLowerCase()] 
     gap: 1rem;
   }
 
-  .header__github {
+  .header__icon-link {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -290,7 +288,7 @@ const getExternalIcon = (label: string) => externalIconMap[label.toLowerCase()] 
   }
 
   /* Rainbow ring on hover */
-  .header__github::before {
+  .header__icon-link::before {
     content: '';
     position: absolute;
     inset: -2px;
@@ -310,20 +308,20 @@ const getExternalIcon = (label: string) => externalIconMap[label.toLowerCase()] 
     transition: opacity var(--transition-fast);
   }
 
-  .header__github:hover {
+  .header__icon-link:hover {
     border-color: transparent;
     background: rgba(255, 255, 255, 0.1);
     color: var(--text-white);
     box-shadow: 0 0 20px rgba(255, 0, 128, 0.3), 0 0 40px rgba(0, 200, 255, 0.15);
   }
 
-  .header__github:hover::before {
+  .header__icon-link:hover::before {
     opacity: 1;
     will-change: transform;
-    animation: github-ring-spin 6s linear infinite;
+    animation: icon-ring-spin 6s linear infinite;
   }
 
-  @keyframes github-ring-spin {
+  @keyframes icon-ring-spin {
     from { transform: rotate(0deg) translateZ(0); }
     to { transform: rotate(360deg) translateZ(0); }
   }

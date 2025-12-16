@@ -119,6 +119,15 @@ const canonicalUrl = Astro.site
     mix-blend-mode: normal !important;
     opacity: 1 !important;
     will-change: auto !important;
+    transition: opacity 0.2s ease, visibility 0.2s ease;
+  }
+
+  /* Hide Ko-fi widget when mobile nav is open */
+  .mobile-nav-wrapper.is-open ~ .kofi-widget-overlay,
+  body:has(.mobile-nav-wrapper.is-open) .kofi-widget-overlay {
+    opacity: 0 !important;
+    visibility: hidden !important;
+    pointer-events: none !important;
   }
 
   /* Ensure base elements don't trigger Safari white iframe bug */
