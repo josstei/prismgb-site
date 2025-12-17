@@ -19,6 +19,16 @@ const ASSET_PATTERNS = {
 };
 
 /**
+ * Platform metadata - single source of truth for platform display info.
+ */
+const PLATFORM_METADATA = [
+  { name: 'windows', icon: 'windows', label: 'Windows' },
+  { name: 'macos-arm64', icon: 'apple', label: 'macOS (Apple Silicon)', subtitle: 'M1/M2/M3/M4' },
+  { name: 'macos-x64', icon: 'apple', label: 'macOS (Intel)', subtitle: 'Intel Macs' },
+  { name: 'linux', icon: 'linux-download', label: 'Linux' },
+];
+
+/**
  * Fallback version used when GitHub API is unavailable or rate-limited.
  */
 const FALLBACK_VERSION = '1.0.0';
@@ -28,38 +38,19 @@ const FALLBACK_VERSION = '1.0.0';
  */
 function buildPlatformData(version) {
   const baseUrl = `https://github.com/${GITHUB_OWNER}/${GITHUB_REPO}/releases/download/v${version}`;
-  return [
-    {
-      name: 'windows',
-      icon: 'windows',
-      label: 'Windows',
-      filename: `PrismGB-Setup-${version}.exe`,
-      downloadUrl: `${baseUrl}/PrismGB-Setup-${version}.exe`,
-    },
-    {
-      name: 'macos-arm64',
-      icon: 'apple',
-      label: 'macOS (Apple Silicon)',
-      subtitle: 'M1/M2/M3/M4',
-      filename: `PrismGB-${version}-mac-arm64.dmg`,
-      downloadUrl: `${baseUrl}/PrismGB-${version}-mac-arm64.dmg`,
-    },
-    {
-      name: 'macos-x64',
-      icon: 'apple',
-      label: 'macOS (Intel)',
-      subtitle: 'Intel Macs',
-      filename: `PrismGB-${version}-mac-x64.dmg`,
-      downloadUrl: `${baseUrl}/PrismGB-${version}-mac-x64.dmg`,
-    },
-    {
-      name: 'linux',
-      icon: 'linux-download',
-      label: 'Linux',
-      filename: `PrismGB-${version}-x86_64.AppImage`,
-      downloadUrl: `${baseUrl}/PrismGB-${version}-x86_64.AppImage`,
-    },
-  ];
+
+  const filenamePatterns = {
+    windows: `PrismGB-Setup-${version}.exe`,
+    'macos-arm64': `PrismGB-${version}-mac-arm64.dmg`,
+    'macos-x64': `PrismGB-${version}-mac-x64.dmg`,
+    linux: `PrismGB-${version}-x86_64.AppImage`,
+  };
+
+  return PLATFORM_METADATA.map((platform) => ({
+    ...platform,
+    filename: filenamePatterns[platform.name],
+    downloadUrl: `${baseUrl}/${filenamePatterns[platform.name]}`,
+  }));
 }
 
 /**
@@ -67,7 +58,6 @@ function buildPlatformData(version) {
  */
 const FALLBACK_DATA = {
   version: FALLBACK_VERSION,
-  releasesUrl: `https://github.com/${GITHUB_OWNER}/${GITHUB_REPO}/releases`,
   platforms: buildPlatformData(FALLBACK_VERSION),
 };
 
@@ -100,39 +90,13 @@ export async function getLatestRelease() {
     const version = release.tag_name.replace(/^v/, '');
     const assets = release.assets || [];
 
-    const platforms = [
-      {
-        name: 'windows',
-        icon: 'windows',
-        label: 'Windows',
-        ...getAssetInfo(assets, 'windows'),
-      },
-      {
-        name: 'macos-arm64',
-        icon: 'apple',
-        label: 'macOS (Apple Silicon)',
-        subtitle: 'M1/M2/M3/M4',
-        ...getAssetInfo(assets, 'macos-arm64'),
-      },
-      {
-        name: 'macos-x64',
-        icon: 'apple',
-        label: 'macOS (Intel)',
-        subtitle: 'Intel Macs',
-        ...getAssetInfo(assets, 'macos-x64'),
-      },
-      {
-        name: 'linux',
-        icon: 'linux-download',
-        label: 'Linux',
-        ...getAssetInfo(assets, 'linux'),
-      },
-    ];
+    const platforms = PLATFORM_METADATA.map((platform) => ({
+      ...platform,
+      ...getAssetInfo(assets, platform.name),
+    }));
 
     return {
       version,
-      releasesUrl: release.html_url,
-      publishedAt: release.published_at,
       platforms,
     };
   } catch (error) {
@@ -152,11 +116,9 @@ function getAssetInfo(assets, platform) {
     return {
       filename: asset.name,
       downloadUrl: asset.browser_download_url,
-      size: asset.size,
     };
   }
 
-  // Return empty values if asset not found
   return {
     filename: null,
     downloadUrl: null,
@@ -164,4 +126,3 @@ function getAssetInfo(assets, platform) {
 }
 
 export const GITHUB_REPO_URL = `https://github.com/${GITHUB_OWNER}/${GITHUB_REPO}`;
-export const GITHUB_ISSUES_URL = `${GITHUB_REPO_URL}/issues`;

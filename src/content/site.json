@@ -57,11 +57,6 @@
       }
     ]
   },
-  "download": {
-    "_comment": "Download data is fetched from GitHub API at build time. See src/lib/github.js for fallback.",
-    "githubUrl": "https://github.com/josstei/prismgb-app",
-    "kofiUsername": "josstei"
-  },
   "gettingStarted": [
     {
       "number": 1,

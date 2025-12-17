@@ -148,18 +148,6 @@ const { steps, class: className = '' } = Astro.props;
     animation: flowLine 2s ease-in-out infinite;
   }
 
-  @keyframes flowLine {
-    0% {
-      left: -100%;
-    }
-    50% {
-      left: 100%;
-    }
-    100% {
-      left: 100%;
-    }
-  }
-
   @media (max-width: 768px) {
     .steps {
       flex-direction: column;
@@ -186,21 +174,6 @@ const { steps, class: className = '' } = Astro.props;
 
     .connector-line::after {
       animation: flowLineVertical 2s ease-in-out infinite;
-    }
-
-    @keyframes flowLineVertical {
-      0% {
-        top: -100%;
-        left: 0;
-      }
-      50% {
-        top: 100%;
-        left: 0;
-      }
-      100% {
-        top: 100%;
-        left: 0;
-      }
     }
   }
 
