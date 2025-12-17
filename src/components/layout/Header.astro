@@ -583,26 +583,11 @@ const getExternalIcon = (label: string) => externalIconMap[label.toLowerCase()] 
   .mobile-nav__link:focus {
     color: var(--text-white);
     background: var(--accent-10);
-    border-left-color: var(--accent-primary);
+    border-left-color: var(--accent-bright);
   }
 
   .mobile-nav__link--external {
     color: var(--text-muted);
-  }
-
-  .mobile-nav__link--kofi {
-    background: linear-gradient(135deg, var(--accent-15), var(--accent-08));
-    border: 1px solid var(--accent-30);
-    color: var(--text-white);
-    justify-content: center;
-    gap: 0.5rem;
-  }
-
-  .mobile-nav__link--kofi:hover,
-  .mobile-nav__link--kofi:focus {
-    background: var(--accent-20);
-    border-color: var(--accent-40);
-    color: var(--text-white);
   }
 
   /* Purple accent for inline SVG icons */
