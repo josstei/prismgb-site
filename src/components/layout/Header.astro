@@ -20,6 +20,7 @@ const downloadHref =
   navigation.find((item) => item.label.toLowerCase() === 'download')?.href ||
   '#download';
 const githubLink = externalLinks.find((item) => item.label.toLowerCase() === 'github');
+const xLink = externalLinks.find((item) => item.label.toLowerCase() === 'x');
 
 const navIconMap: Record<string, string> = {
   'features': 'sparkles',
@@ -30,6 +31,7 @@ const getNavIcon = (label: string) => navIconMap[label.toLowerCase()] || 'arrow-
 
 const externalIconMap: Record<string, string> = {
   'github': 'github',
+  'x': 'x',
 };
 const getExternalIcon = (label: string) => externalIconMap[label.toLowerCase()] || 'external-link';
 ---
@@ -59,6 +61,11 @@ const getExternalIcon = (label: string) => externalIconMap[label.toLowerCase()] 
       {githubLink && (
         <a href={githubLink.href} target="_blank" rel="noopener noreferrer" class="header__icon-link" aria-label="GitHub">
           <Icon name="github" size={24} />
+        </a>
+      )}
+      {xLink && (
+        <a href={xLink.href} target="_blank" rel="noopener noreferrer" class="header__icon-link" aria-label="X">
+          <Icon name="x" size={24} />
         </a>
       )}
     </div>
