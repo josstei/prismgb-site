@@ -1,0 +1,7 @@
+# robots.txt for prismgb.com
+
+User-agent: *
+Allow: /
+
+# Sitemap location
+Sitemap: https://prismgb.com/sitemap.xml
