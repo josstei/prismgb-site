@@ -44,6 +44,35 @@
   100% { top: 100%; left: 0; }
 }
 
+/* Scroll reveal - hidden state */
+.scroll-reveal {
+  opacity: 0;
+  transform: translateY(30px) translateZ(0);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+.scroll-reveal.is-visible {
+  opacity: 1;
+  transform: translateY(0) translateZ(0);
+}
+
+/* Staggered children */
+.scroll-reveal-stagger > * {
+  opacity: 0;
+  transform: translateY(20px) translateZ(0);
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+.scroll-reveal-stagger.is-visible > * {
+  opacity: 1;
+  transform: translateY(0) translateZ(0);
+}
+
+.scroll-reveal-stagger.is-visible > *:nth-child(1) { transition-delay: 0ms; }
+.scroll-reveal-stagger.is-visible > *:nth-child(2) { transition-delay: 100ms; }
+.scroll-reveal-stagger.is-visible > *:nth-child(3) { transition-delay: 200ms; }
+.scroll-reveal-stagger.is-visible > *:nth-child(4) { transition-delay: 300ms; }
+
 /* Reduced motion */
 @media (prefers-reduced-motion: reduce) {
   *,
@@ -52,5 +81,11 @@
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
+  }
+
+  .scroll-reveal,
+  .scroll-reveal-stagger > * {
+    opacity: 1;
+    transform: none;
   }
 }

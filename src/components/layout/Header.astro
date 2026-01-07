@@ -176,6 +176,24 @@ const getExternalIcon = (label: string) => externalIconMap[label.toLowerCase()] 
     height: 24px;
   }
 
+  /* Past hero - emphasize download CTA */
+  .header.past-hero :global(.btn--rainbow) {
+    box-shadow: 0 0 20px rgba(255, 0, 128, 0.4),
+                0 0 40px rgba(0, 200, 255, 0.2);
+    animation: cta-pulse 2s ease-in-out infinite;
+  }
+
+  @keyframes cta-pulse {
+    0%, 100% {
+      box-shadow: 0 0 20px rgba(255, 0, 128, 0.4),
+                  0 0 40px rgba(0, 200, 255, 0.2);
+    }
+    50% {
+      box-shadow: 0 0 25px rgba(255, 0, 128, 0.5),
+                  0 0 50px rgba(0, 200, 255, 0.3);
+    }
+  }
+
   /* Reduced motion */
   @media (prefers-reduced-motion: reduce) {
     .header {
@@ -185,6 +203,9 @@ const getExternalIcon = (label: string) => externalIconMap[label.toLowerCase()] 
       transform: none;
       opacity: 0;
       pointer-events: none;
+    }
+    .header.past-hero :global(.btn--rainbow) {
+      animation: none;
     }
   }
 
@@ -210,9 +231,9 @@ const getExternalIcon = (label: string) => externalIconMap[label.toLowerCase()] 
   }
 
   .header__container {
-    display: flex;
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
     align-items: center;
-    justify-content: space-between;
     max-width: var(--container-max);
     margin: 0 auto;
     padding: 1rem 2rem;
@@ -277,6 +298,7 @@ const getExternalIcon = (label: string) => externalIconMap[label.toLowerCase()] 
   .header__actions {
     display: flex;
     align-items: center;
+    justify-content: flex-end;
     gap: 1rem;
   }
 

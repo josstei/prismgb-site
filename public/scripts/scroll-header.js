@@ -7,11 +7,13 @@
   var SCROLL_THRESHOLD = 60;
   var VELOCITY_THRESHOLD = 5;
   var COMPACT_THRESHOLD = 100;
+  var HERO_THRESHOLD = window.innerHeight * 0.7;
 
   var lastScrollY = 0;
   var ticking = false;
   var isHidden = false;
   var isCompact = false;
+  var isPastHero = false;
   var prefersReducedMotion = window.matchMedia(
     '(prefers-reduced-motion: reduce)'
   ).matches;
@@ -26,11 +28,20 @@
     var scrollY = window.scrollY;
     var delta = scrollY - lastScrollY;
 
+    if (scrollY > HERO_THRESHOLD && !isPastHero) {
+      header.classList.add('past-hero');
+      isPastHero = true;
+    } else if (scrollY <= HERO_THRESHOLD && isPastHero) {
+      header.classList.remove('past-hero');
+      isPastHero = false;
+    }
+
     if (scrollY < 10) {
-      header.classList.remove('is-hidden', 'is-compact');
+      header.classList.remove('is-hidden', 'is-compact', 'past-hero');
       header.classList.add('is-at-top');
       isHidden = false;
       isCompact = false;
+      isPastHero = false;
       lastScrollY = scrollY;
       ticking = false;
       return;
