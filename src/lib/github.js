@@ -12,20 +12,46 @@ const GITHUB_API = `https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/
  * These match the electron-builder artifactName configurations.
  */
 const ASSET_PATTERNS = {
-  windows: /PrismGB-Setup-[\d.]+\.exe$/,
+  'windows-installer': /PrismGB-Setup-[\d.]+\.exe$/,
+  'windows-portable': /PrismGB-[\d.]+-portable\.exe$/,
   'macos-arm64': /PrismGB-[\d.]+-mac-arm64\.dmg$/,
   'macos-x64': /PrismGB-[\d.]+-mac-x64\.dmg$/,
-  linux: /PrismGB-[\d.]+-x86_64\.AppImage$/,
+  'linux-x64': /PrismGB-[\d.]+-x86_64\.AppImage$/,
+  'linux-arm64': /PrismGB-[\d.]+-arm64\.AppImage$/,
 };
 
 /**
  * Platform metadata - single source of truth for platform display info.
+ * Platforms with variants have multiple download options in a single card.
  */
 const PLATFORM_METADATA = [
-  { name: 'windows', icon: 'windows', label: 'Windows' },
-  { name: 'macos-arm64', icon: 'apple', label: 'macOS (Apple Silicon)', subtitle: 'M1/M2/M3/M4' },
-  { name: 'macos-x64', icon: 'apple', label: 'macOS (Intel)', subtitle: 'Intel Macs' },
-  { name: 'linux', icon: 'linux-download', label: 'Linux' },
+  {
+    name: 'windows',
+    icon: 'windows',
+    label: 'Windows',
+    variants: [
+      { name: 'windows-installer', label: 'Installer', subtitle: 'Windows 10+, 64-bit' },
+      { name: 'windows-portable', label: 'Portable', subtitle: 'Standalone, 64-bit' },
+    ],
+  },
+  {
+    name: 'macos',
+    icon: 'apple',
+    label: 'macOS',
+    variants: [
+      { name: 'macos-arm64', label: 'Apple Silicon', subtitle: 'M1/M2/M3/M4' },
+      { name: 'macos-x64', label: 'Intel', subtitle: '64-bit' },
+    ],
+  },
+  {
+    name: 'linux',
+    icon: 'linux-download',
+    label: 'Linux',
+    variants: [
+      { name: 'linux-x64', label: 'x86_64', subtitle: 'Intel/AMD' },
+      { name: 'linux-arm64', label: 'ARM64', subtitle: 'Pi, Asahi, etc.' },
+    ],
+  },
 ];
 
 /**
@@ -40,17 +66,31 @@ function buildPlatformData(version) {
   const baseUrl = `https://github.com/${GITHUB_OWNER}/${GITHUB_REPO}/releases/download/v${version}`;
 
   const filenamePatterns = {
-    windows: `PrismGB-Setup-${version}.exe`,
+    'windows-installer': `PrismGB-Setup-${version}.exe`,
+    'windows-portable': `PrismGB-${version}-portable.exe`,
     'macos-arm64': `PrismGB-${version}-mac-arm64.dmg`,
     'macos-x64': `PrismGB-${version}-mac-x64.dmg`,
-    linux: `PrismGB-${version}-x86_64.AppImage`,
+    'linux-x64': `PrismGB-${version}-x86_64.AppImage`,
+    'linux-arm64': `PrismGB-${version}-arm64.AppImage`,
   };
 
-  return PLATFORM_METADATA.map((platform) => ({
-    ...platform,
-    filename: filenamePatterns[platform.name],
-    downloadUrl: `${baseUrl}/${filenamePatterns[platform.name]}`,
-  }));
+  return PLATFORM_METADATA.map((platform) => {
+    if (platform.variants) {
+      return {
+        ...platform,
+        variants: platform.variants.map((variant) => ({
+          ...variant,
+          filename: filenamePatterns[variant.name],
+          downloadUrl: `${baseUrl}/${filenamePatterns[variant.name]}`,
+        })),
+      };
+    }
+    return {
+      ...platform,
+      filename: filenamePatterns[platform.name],
+      downloadUrl: `${baseUrl}/${filenamePatterns[platform.name]}`,
+    };
+  });
 }
 
 /**
@@ -90,10 +130,21 @@ export async function getLatestRelease() {
     const version = release.tag_name.replace(/^v/, '');
     const assets = release.assets || [];
 
-    const platforms = PLATFORM_METADATA.map((platform) => ({
-      ...platform,
-      ...getAssetInfo(assets, platform.name),
-    }));
+    const platforms = PLATFORM_METADATA.map((platform) => {
+      if (platform.variants) {
+        return {
+          ...platform,
+          variants: platform.variants.map((variant) => ({
+            ...variant,
+            ...getAssetInfo(assets, variant.name),
+          })),
+        };
+      }
+      return {
+        ...platform,
+        ...getAssetInfo(assets, platform.name),
+      };
+    });
 
     return {
       version,

@@ -1,9 +1,15 @@
 ---
 import Section from '../common/Section.astro';
-import Card from '../common/Card.astro';
-import Button from '../common/Button.astro';
 import Badge from '../common/Badge.astro';
 import Icon from '../common/Icon.astro';
+
+interface Variant {
+  name: string;
+  label: string;
+  subtitle?: string;
+  downloadUrl?: string;
+  filename?: string;
+}
 
 interface Platform {
   name: string;
@@ -12,6 +18,7 @@ interface Platform {
   subtitle?: string;
   downloadUrl?: string;
   filename?: string;
+  variants?: Variant[];
 }
 
 interface Props {
@@ -35,36 +42,44 @@ const {
 
   <div class="download__grid">
     {platforms.map((platform, index) => (
-      <Card variant="download" class="download__card surface-strong" style={`--delay: ${index * 100}ms`}>
-        <div class="download__card-row">
-          <div class="download__platform-icon surface-strong">
-            <Icon name={platform.icon} size={40} />
-          </div>
-          <div class="download__card-info">
+      <div class="download__card" style={`--delay: ${index * 100}ms`}>
+        <div class="download__card-glow"></div>
+        <div class="download__card-inner">
+          <div class="download__card-header">
+            <div class="download__platform-icon">
+              <Icon name={platform.icon} size={32} />
+            </div>
             <h3 class="download__platform-name">{platform.label}</h3>
-            <span class="download__filename">{platform.filename || '\u00A0'}</span>
           </div>
-          {platform.downloadUrl ? (
-            <Button
-              href={platform.downloadUrl}
-              variant="primary"
-              class="download__button"
-            >
-              <Icon name="download" size={16} />
-              Download
-            </Button>
-          ) : (
-            <Button
-              variant="primary"
-              class="download__button"
-              type="button"
-              disabled
-            >
-              Coming Soon
-            </Button>
-          )}
+
+          <div class="download__variants">
+            {platform.variants?.map((variant) => (
+              <a
+                href={variant.downloadUrl || '#'}
+                class:list={['download__variant', { 'download__variant--disabled': !variant.downloadUrl }]}
+                aria-disabled={!variant.downloadUrl}
+              >
+                <div class="download__variant-content">
+                  <span class="download__variant-label">{variant.label}</span>
+                  {variant.subtitle && (
+                    <span class="download__variant-subtitle">{variant.subtitle}</span>
+                  )}
+                </div>
+                <div class="download__variant-action">
+                  {variant.downloadUrl ? (
+                    <>
+                      <Icon name="download" size={16} />
+                      <span>Get</span>
+                    </>
+                  ) : (
+                    <span>Soon</span>
+                  )}
+                </div>
+              </a>
+            ))}
+          </div>
         </div>
-      </Card>
+      </div>
     ))}
   </div>
 
@@ -119,80 +134,167 @@ const {
 
   .download__grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-    gap: 1.5rem;
-    max-width: 1200px;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.25rem;
+    max-width: 840px;
     margin: 0 auto;
     width: 100%;
-    isolation: isolate;
   }
 
-  :global(.download__card) {
-    display: flex;
-    flex-direction: column;
-    align-items: stretch;
-    gap: 0.75rem;
-    padding: 2rem;
-    height: 100%;
+  .download__card {
+    position: relative;
     animation: fadeInUp 0.6s ease forwards;
     animation-delay: var(--delay);
     opacity: 0;
   }
 
-  .download__card-row {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-    width: 100%;
-    gap: 0.5rem;
+  .download__card-glow {
+    display: none;
   }
 
-  .download__card-info {
+  .download__card-inner {
+    position: relative;
     display: flex;
     flex-direction: column;
+    height: 100%;
+    padding: 1.5rem;
+    background: var(--surface-strong);
+    border: 1px solid var(--accent-20);
+    border-radius: var(--radius-lg);
+    transition: all var(--transition-fast);
+  }
+
+  .download__card-inner::before {
+    content: '';
+    position: absolute;
+    inset: -1px;
+    border-radius: inherit;
+    padding: 1px;
+    background: linear-gradient(
+      135deg,
+      rgba(255, 0, 128, 0.3),
+      rgba(255, 100, 0, 0.3),
+      rgba(0, 200, 100, 0.3),
+      rgba(0, 150, 255, 0.3),
+      rgba(130, 0, 255, 0.3)
+    );
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    opacity: 0;
+    transition: opacity var(--transition-fast);
+    pointer-events: none;
+  }
+
+  .download__card:hover .download__card-inner {
+    transform: translateY(-4px) translateZ(0);
+    box-shadow:
+      0 8px 24px var(--accent-15),
+      0 0 30px rgba(255, 0, 128, 0.1),
+      0 0 50px rgba(0, 200, 255, 0.05);
+  }
+
+  .download__card:hover .download__card-inner::before {
+    opacity: 1;
+  }
+
+  .download__card-header {
+    display: flex;
     align-items: center;
-    text-align: center;
-    padding: 0 0.75rem;
-    width: 100%;
+    gap: 0.875rem;
+    margin-bottom: 1.25rem;
   }
 
   .download__platform-icon {
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 80px;
-    height: 80px;
-    margin-bottom: 0.75rem;
-    border-radius: var(--radius-lg);
+    width: 48px;
+    height: 48px;
+    background: var(--accent-10);
+    border: 1px solid var(--accent-20);
+    border-radius: var(--radius-md);
     color: var(--accent-bright);
     flex-shrink: 0;
   }
 
   .download__platform-name {
-    font-size: 1.25rem;
-    margin-bottom: 0;
+    font-size: 1.125rem;
+    font-weight: 600;
+    margin: 0;
     color: var(--text-white);
-    white-space: normal;
-    word-break: break-word;
   }
 
-  .download__filename {
-    display: block;
-    font-size: 0.8125rem;
+  .download__variants {
+    display: flex;
+    flex-direction: column;
+    gap: 0.625rem;
+    flex: 1;
+  }
+
+  .download__variant {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 0.75rem 1rem;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: var(--radius-md);
+    text-decoration: none;
+    transition: all 0.2s ease;
+  }
+
+  .download__variant:hover:not(.download__variant--disabled) {
+    background: rgba(255, 255, 255, 0.05);
+    border-color: var(--accent-25);
+  }
+
+  .download__variant--disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+  .download__variant-content {
+    display: flex;
+    flex-direction: column;
+    gap: 0.125rem;
+  }
+
+  .download__variant-label {
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--text-white);
+  }
+
+  .download__variant-subtitle {
+    font-size: 0.6875rem;
     color: var(--text-muted);
-    white-space: normal;
-    word-break: break-word;
-    overflow-wrap: anywhere;
-    max-width: 100%;
-    margin-bottom: 0.75rem;
-    text-align: inherit;
   }
 
-  :global(.download__card .download__button) {
-    width: 100%;
-    white-space: nowrap;
+  .download__variant-action {
+    display: flex;
+    align-items: center;
+    gap: 0.375rem;
+    padding: 0.375rem 0.75rem;
+    background: linear-gradient(135deg, var(--accent-bright) 0%, var(--accent-light) 100%);
+    border-radius: var(--radius-sm);
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: white;
+    transition: all 0.2s ease;
   }
+
+  .download__variant:hover:not(.download__variant--disabled) .download__variant-action {
+    background: linear-gradient(135deg, var(--accent-light) 0%, #ff80c0 100%);
+  }
+
+  .download__variant--disabled .download__variant-action {
+    background: rgba(255, 255, 255, 0.1);
+    color: var(--text-muted);
+  }
+
 
   .download__footer {
     display: flex;
@@ -226,64 +328,52 @@ const {
 
   @media (max-width: 768px) {
     .download__grid {
-      display: flex;
-      flex-direction: column;
-      gap: 0.5rem;
-    }
-
-    :global(.download__card) {
-      padding: 1rem 1.25rem;
-      border-radius: var(--radius-md);
-      gap: 0.5rem;
-    }
-
-    :global(.download__card:hover) {
-      transform: none;
-    }
-
-    .download__card-row {
-      flex-direction: row;
-      align-items: center;
-      text-align: left;
+      grid-template-columns: 1fr;
       gap: 0.75rem;
+      max-width: 400px;
     }
 
-    .download__card-info {
-      flex: 1;
-      align-items: flex-start;
-      text-align: left;
-      padding: 0;
-      min-width: 0;
+    .download__card:hover .download__card-inner {
+      transform: none;
+      box-shadow: none;
+    }
+
+    .download__card-inner {
+      padding: 1.25rem;
+    }
+
+    .download__card-header {
+      margin-bottom: 1rem;
     }
 
     .download__platform-icon {
-      width: 36px;
-      height: 36px;
-      margin-bottom: 0;
-      border-radius: var(--radius-sm);
+      width: 40px;
+      height: 40px;
     }
 
     .download__platform-icon :global(.icon) {
-      width: 20px;
-      height: 20px;
+      width: 24px;
+      height: 24px;
     }
 
     .download__platform-name {
-      font-size: 0.9375rem;
-      font-weight: 600;
+      font-size: 1rem;
     }
 
-    .download__filename {
-      font-size: 0.75rem;
-      margin-bottom: 0;
-      margin-top: 0.125rem;
+    .download__variant {
+      padding: 0.625rem 0.875rem;
     }
 
-    :global(.download__card .download__button) {
-      width: auto;
-      padding: 0.5rem 0.875rem;
+    .download__variant-label {
       font-size: 0.8125rem;
-      flex-shrink: 0;
+    }
+
+    .download__single {
+      min-height: 60px;
+    }
+
+    .download__single:hover:not(.download__single--disabled) {
+      transform: none;
     }
   }
 </style>
