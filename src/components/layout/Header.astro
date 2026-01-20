@@ -32,6 +32,7 @@ const getNavIcon = (label: string) => navIconMap[label.toLowerCase()] || 'arrow-
 const externalIconMap: Record<string, string> = {
   'github': 'github',
   'x': 'x',
+  'support development': 'heart',
 };
 const getExternalIcon = (label: string) => externalIconMap[label.toLowerCase()] || 'external-link';
 ---
@@ -135,7 +136,7 @@ const getExternalIcon = (label: string) => externalIconMap[label.toLowerCase()] 
       </p>
       <a href="https://modretro.com" target="_blank" rel="noopener noreferrer" class="mobile-nav__footer-link">
         <Icon name="chromatic" size={16} />
-        <span>Mod Retro Chromatic</span>
+        <span>ModRetro Chromatic</span>
       </a>
     </div>
   </nav>

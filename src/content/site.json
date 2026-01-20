@@ -11,7 +11,7 @@
     { "label": "FAQ", "href": "#faq" },
     { "label": "GitHub", "href": "https://github.com/josstei/prismgb-app", "external": true },
     { "label": "X", "href": "https://x.com/prism_gb", "external": true },
-    { "label": "Ko-fi", "href": "https://ko-fi.com/josstei", "external": true }
+    { "label": "Support Development", "href": "https://ko-fi.com/josstei", "external": true }
   ],
   "features": {
     "primary": [
@@ -88,7 +88,7 @@
         "questions": [
           {
             "question": "What devices are supported?",
-            "answer": "PrismGB is designed exclusively for the Mod Retro Chromatic handheld gaming device. Other devices are not currently supported."
+            "answer": "PrismGB is designed exclusively for the ModRetro Chromatic handheld gaming device. Other devices are not currently supported."
           },
           {
             "question": "Do I need to install drivers?",

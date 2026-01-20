@@ -37,6 +37,7 @@ const {
 <Section id="download" variant="dark" class="download">
   <div class="download__header">
     <h2 class="download__title">Download</h2>
+    <p class="download__subtitle">Free and open source for all platforms</p>
     <Badge variant="success" dot>v{version} Latest</Badge>
   </div>
 
@@ -130,6 +131,12 @@ const {
       #8000ff 100%
     );
     opacity: 0.8;
+  }
+
+  .download__subtitle {
+    font-size: 1.125rem;
+    color: var(--text-secondary);
+    margin: 0;
   }
 
   .download__grid {
