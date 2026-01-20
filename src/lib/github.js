@@ -16,8 +16,8 @@ const ASSET_PATTERNS = {
   'windows-portable': /PrismGB-[\d.]+-portable\.exe$/,
   'macos-arm64': /PrismGB-[\d.]+-mac-arm64\.dmg$/,
   'macos-x64': /PrismGB-[\d.]+-mac-x64\.dmg$/,
-  'linux-x64': /PrismGB-[\d.]+-x86_64\.AppImage$/,
-  'linux-arm64': /PrismGB-[\d.]+-arm64\.AppImage$/,
+  'linux-x64': /PrismGB-[\d.]+-linux-x86_64\.AppImage$/,
+  'linux-arm64': /PrismGB-[\d.]+-linux-arm64\.AppImage$/,
 };
 
 /**
@@ -70,8 +70,8 @@ function buildPlatformData(version) {
     'windows-portable': `PrismGB-${version}-portable.exe`,
     'macos-arm64': `PrismGB-${version}-mac-arm64.dmg`,
     'macos-x64': `PrismGB-${version}-mac-x64.dmg`,
-    'linux-x64': `PrismGB-${version}-x86_64.AppImage`,
-    'linux-arm64': `PrismGB-${version}-arm64.AppImage`,
+    'linux-x64': `PrismGB-${version}-linux-x86_64.AppImage`,
+    'linux-arm64': `PrismGB-${version}-linux-arm64.AppImage`,
   };
 
   return PLATFORM_METADATA.map((platform) => {
