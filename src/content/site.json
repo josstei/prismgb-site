@@ -1,8 +1,8 @@
 {
   "site": {
     "title": "PrismGB",
-    "tagline": "Play your Chromatic on any screen",
-    "description": "Plug in your Chromatic and watch, stream, or save your screenshots right from your computer. Crisp video, smooth controls, and an easy setup."
+    "tagline": "Play your ModRetro Chromatic on any screen",
+    "description": "Relive your best moments, never lose a secret, and make it look perfect."
   },
   "navigation": [
     { "label": "Features", "href": "#features" },
@@ -11,7 +11,7 @@
     { "label": "FAQ", "href": "#faq" },
     { "label": "GitHub", "href": "https://github.com/josstei/prismgb-app", "external": true },
     { "label": "X", "href": "https://x.com/prism_gb", "external": true },
-    { "label": "Ko-fi", "href": "https://ko-fi.com/josstei", "external": true }
+    { "label": "Support Development", "href": "https://ko-fi.com/josstei", "external": true }
   ],
   "features": {
     "primary": [
@@ -31,30 +31,30 @@
         "icon": "record",
         "title": "Recording",
         "tagline": "Capture full gameplay sessions",
-        "detail": "Record your adventures in clean, ready-to-share videos."
+        "detail": "Record and export as MP4, WebM, or MOV—ready to share or edit."
       },
       {
         "icon": "desktop",
         "title": "Cross-Platform",
         "tagline": "Works on the computer you already have",
-        "detail": "Windows, macOS, and Linux downloads with handy tray controls and automatic updates."
+        "detail": "Windows, macOS, and Linux (including Raspberry Pi) with tray controls and automatic updates."
       }
     ],
     "secondary": [
       {
+        "icon": "notes",
+        "title": "Game Notes",
+        "description": "Jot down passwords, secrets, and tips for each game"
+      },
+      {
         "icon": "palette",
-        "title": "5 Visual Styles",
-        "description": "True Color, Vibrant, Hi-Def, Vintage CRT, Pixel LCD"
+        "title": "6 Visual Styles",
+        "description": "True Color, Vibrant, Hi-Def, Vintage, Pixel LCD, and Performance"
       },
       {
         "icon": "sliders",
         "title": "Display Controls",
-        "description": "Volume, brightness, and a cinema mode for lights-out sessions"
-      },
-      {
-        "icon": "gpu",
-        "title": "Smooth Performance",
-        "description": "Fast, stutter-free play on laptops and desktops alike"
+        "description": "Brightness, volume, cinematic letterbox, and minimalist fullscreen"
       }
     ]
   },
@@ -88,7 +88,7 @@
         "questions": [
           {
             "question": "What devices are supported?",
-            "answer": "PrismGB is designed exclusively for the Mod Retro Chromatic handheld gaming device. Other devices are not currently supported."
+            "answer": "PrismGB is designed exclusively for the ModRetro Chromatic handheld gaming device. Other devices are not currently supported."
           },
           {
             "question": "Do I need to install drivers?",
@@ -96,7 +96,7 @@
           },
           {
             "question": "What are the system requirements?",
-            "answer": "Works on Windows 10+, macOS 10.15+, or modern Linux (Ubuntu 18.04+, Fedora, Arch) with a USB port for your Chromatic."
+            "answer": "Works on Windows 10+, macOS 10.15+, or modern Linux (including Raspberry Pi and other ARM64 devices) with a USB port for your Chromatic."
           }
         ]
       },
