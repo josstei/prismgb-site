@@ -5,7 +5,7 @@
 </p>
 
 <p align="center">
-  <strong>The official website for PrismGB — a desktop companion app for the Mod Retro Chromatic</strong>
+  <strong>The official website for PrismGB — a desktop companion app for the ModRetro Chromatic</strong>
 </p>
 
 <p align="center">
@@ -27,8 +27,8 @@
 >
 > This is an **unofficial**, community-developed project.
 >
-> PrismGB is not affiliated with, endorsed by, or sponsored by [Mod Retro](https://modretro.com).
-> The Chromatic is a product of Mod Retro.
+> PrismGB is not affiliated with, endorsed by, or sponsored by [ModRetro](https://modretro.com).
+> The Chromatic is a product of ModRetro.
 >
 > For official Chromatic support and information, please visit [modretro.com](https://modretro.com).
 
@@ -36,7 +36,7 @@
 
 ## About
 
-This repository contains the website for PrismGB, a desktop streaming and capture application for the [Mod Retro Chromatic](https://modretro.com) handheld gaming device.
+This repository contains the website for PrismGB, a desktop streaming and capture application for the [ModRetro Chromatic](https://modretro.com) handheld gaming device.
 
 The site features an interactive demo that gives visitors a preview of the app experience.
 
@@ -108,7 +108,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 <p align="center">
   <sub>
     <strong>This is an unofficial community project.</strong><br>
-    The Chromatic and Mod Retro are trademarks of Mod Retro LLC.<br>
-    PrismGB is not affiliated with or endorsed by Mod Retro.
+    The Chromatic and ModRetro are trademarks of ModRetro LLC.<br>
+    PrismGB is not affiliated with or endorsed by ModRetro.
   </sub>
 </p>
