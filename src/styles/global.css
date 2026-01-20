@@ -332,7 +332,7 @@ a:hover {
   padding: 0 var(--section-padding-x);
 }
 
-/* Scrollbar - Rainbow on hover */
+/* Scrollbar */
 ::-webkit-scrollbar {
   width: 10px;
   height: 10px;
@@ -343,28 +343,14 @@ a:hover {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: linear-gradient(
-    180deg,
-    rgba(255, 0, 128, 0.4) 0%,
-    rgba(255, 100, 0, 0.4) 25%,
-    rgba(0, 200, 100, 0.4) 50%,
-    rgba(0, 150, 255, 0.4) 75%,
-    rgba(130, 0, 255, 0.4) 100%
-  );
+  background: var(--accent-bright);
   border-radius: 5px;
   border: 2px solid transparent;
   background-clip: padding-box;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: linear-gradient(
-    180deg,
-    rgba(255, 0, 128, 0.7) 0%,
-    rgba(255, 100, 0, 0.7) 25%,
-    rgba(0, 200, 100, 0.7) 50%,
-    rgba(0, 150, 255, 0.7) 75%,
-    rgba(130, 0, 255, 0.7) 100%
-  );
+  background: var(--accent-light);
   background-clip: padding-box;
 }
 

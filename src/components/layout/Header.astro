@@ -32,6 +32,7 @@ const getNavIcon = (label: string) => navIconMap[label.toLowerCase()] || 'arrow-
 const externalIconMap: Record<string, string> = {
   'github': 'github',
   'x': 'x',
+  'support development': 'heart',
 };
 const getExternalIcon = (label: string) => externalIconMap[label.toLowerCase()] || 'external-link';
 ---
@@ -135,7 +136,7 @@ const getExternalIcon = (label: string) => externalIconMap[label.toLowerCase()] 
       </p>
       <a href="https://modretro.com" target="_blank" rel="noopener noreferrer" class="mobile-nav__footer-link">
         <Icon name="chromatic" size={16} />
-        <span>Mod Retro Chromatic</span>
+        <span>ModRetro Chromatic</span>
       </a>
     </div>
   </nav>
@@ -210,9 +211,9 @@ const getExternalIcon = (label: string) => externalIconMap[label.toLowerCase()] 
   }
 
   .header__container {
-    display: flex;
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
     align-items: center;
-    justify-content: space-between;
     max-width: var(--container-max);
     margin: 0 auto;
     padding: 1rem 2rem;
@@ -277,6 +278,7 @@ const getExternalIcon = (label: string) => externalIconMap[label.toLowerCase()] 
   .header__actions {
     display: flex;
     align-items: center;
+    justify-content: flex-end;
     gap: 1rem;
   }
 
@@ -677,6 +679,8 @@ const getExternalIcon = (label: string) => externalIconMap[label.toLowerCase()] 
   /* ===== Responsive ===== */
   @media (max-width: 768px) {
     .header__container {
+      display: flex;
+      justify-content: space-between;
       padding: 0.75rem 1rem;
     }
 
