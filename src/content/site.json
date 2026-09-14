@@ -110,7 +110,7 @@
           },
           {
             "question": "Where are my screenshots and recordings saved?",
-            "answer": "Captures save to your regular Videos or Pictures folder with clear timestamps so you can find them later."
+            "answer": "Screenshots and recordings save automatically to your Downloads folder. File names start with prismgb-screenshot or prismgb-recording and include the date and time, so they're easy to find."
           }
         ]
       },
